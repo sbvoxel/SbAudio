@@ -1,6 +1,7 @@
 # CMake Project for FAudio
 # Written by @NeroBurner
-cmake_minimum_required(VERSION 2.8.12)
+# TODO: What to do about above comment now that this file will be changing?
+cmake_minimum_required(VERSION 3.20.0)
 project(FAudio C)
 
 # Options
