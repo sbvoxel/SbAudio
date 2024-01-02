@@ -19,13 +19,8 @@ if(WIN32)
 option(INSTALL_MINGW_DEPENDENCIES "Add dependent libraries to MinGW install target" OFF)
 endif()
 
-# C99 Requirement
-if(${CMAKE_VERSION} VERSION_LESS "3.1.3")
-    message(WARNING "Your CMake version is too old, set -std=c99 yourself!")
-else()
-    set(CMAKE_C_STANDARD 99)
-    set(CMAKE_C_EXTENSIONS OFF)
-endif()
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_EXTENSIONS OFF)
 
 # Version
 SET(LIB_MAJOR_VERSION "0")
