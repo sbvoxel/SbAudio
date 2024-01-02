@@ -39,9 +39,6 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     )
 endif()
 
-# Add our repository's module path to CMake's module path list
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
-
 # Platform Flags
 if(APPLE)
     set(CMAKE_MACOSX_RPATH ON)
