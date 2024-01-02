@@ -31,7 +31,7 @@
 
 #define STB_EXTERN
 #define STB_DEFINE
-#include "stb.h"
+#include "stb_modified.h"
 #define FACT_INTERNAL_rng() ((float) stb_frand())
 
 /* XACT Versions */

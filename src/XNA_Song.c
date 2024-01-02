@@ -78,7 +78,7 @@
 
 #define STB_VORBIS_NO_PUSHDATA_API 1
 #define STB_VORBIS_NO_INTEGER_CONVERSION 1
-#include "stb_vorbis.h"
+#include "stb_vorbis_modified.h"
 
 #include "qoa_decoder.h"
 
