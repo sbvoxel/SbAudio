@@ -46,9 +46,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 if(APPLE)
     set(CMAKE_MACOSX_RPATH ON)
     set(CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
-elseif(WIN32)
-    # "SbAudio.dll", not "libSbAudio.dll"
-    set(CMAKE_SHARED_LIBRARY_PREFIX "")
 endif()
 
 # Source lists
