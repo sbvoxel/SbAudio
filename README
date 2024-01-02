@@ -32,7 +32,7 @@ Low-level (wrap the drivers / platform APIs):
     RtAudio
     SDL
 
-Platform APIs
+Platform APIs:
     Linux
         PulseAudio
         PipeWire
