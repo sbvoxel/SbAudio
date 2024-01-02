@@ -490,8 +490,6 @@ extern FAudioGUID DATAFORMAT_SUBTYPE_IEEE_FLOAT;
 
 /* FAudio Version API */
 
-#define FAUDIO_TARGET_VERSION 8 /* Targeting compatibility with XAudio 2.8 */
-
 #define FAUDIO_ABI_VERSION	 0
 #define FAUDIO_MAJOR_VERSION	24
 #define FAUDIO_MINOR_VERSION	 1
@@ -523,7 +521,7 @@ FAUDIOAPI uint32_t FAudioCreate(
 );
 
 /* See "extensions/COMConstructEXT.txt" for more details */
-FAUDIOAPI uint32_t FAudioCOMConstructEXT(FAudio **ppFAudio, uint8_t version);
+FAUDIOAPI uint32_t FAudioCOMConstructEXT(FAudio **ppFAudio);
 
 /* Increments a reference counter. When counter is 0, audio is freed.
  * Returns the reference count after incrementing.
@@ -1319,7 +1317,6 @@ FAUDIOAPI uint32_t FAudioCreateWithCustomAllocatorEXT(
 );
 FAUDIOAPI uint32_t FAudioCOMConstructWithCustomAllocatorEXT(
 	FAudio **ppFAudio,
-	uint8_t version,
 	FAudioMallocFunc customMalloc,
 	FAudioFreeFunc customFree,
 	FAudioReallocFunc customRealloc

@@ -78,16 +78,15 @@ uint32_t FAudioCreate(
 	uint32_t Flags,
 	FAudioProcessor XAudio2Processor
 ) {
-	FAudioCOMConstructEXT(ppFAudio, FAUDIO_TARGET_VERSION);
+	FAudioCOMConstructEXT(ppFAudio);
 	FAudio_Initialize(*ppFAudio, Flags, XAudio2Processor);
 	return 0;
 }
 
-uint32_t FAudioCOMConstructEXT(FAudio **ppFAudio, uint8_t version)
+uint32_t FAudioCOMConstructEXT(FAudio **ppFAudio)
 {
 	return FAudioCOMConstructWithCustomAllocatorEXT(
 		ppFAudio,
-		version,
 		FAudio_malloc,
 		FAudio_free,
 		FAudio_realloc
@@ -104,7 +103,6 @@ uint32_t FAudioCreateWithCustomAllocatorEXT(
 ) {
 	FAudioCOMConstructWithCustomAllocatorEXT(
 		ppFAudio,
-		FAUDIO_TARGET_VERSION,
 		customMalloc,
 		customFree,
 		customRealloc
@@ -115,7 +113,6 @@ uint32_t FAudioCreateWithCustomAllocatorEXT(
 
 uint32_t FAudioCOMConstructWithCustomAllocatorEXT(
 	FAudio **ppFAudio,
-	uint8_t version,
 	FAudioMallocFunc customMalloc,
 	FAudioFreeFunc customFree,
 	FAudioReallocFunc customRealloc
@@ -126,7 +123,6 @@ uint32_t FAudioCOMConstructWithCustomAllocatorEXT(
 	FAudio_PlatformAddRef();
 	*ppFAudio = (FAudio*) customMalloc(sizeof(FAudio));
 	FAudio_zero(*ppFAudio, sizeof(FAudio));
-	(*ppFAudio)->version = version;
 #ifndef FAUDIO_DISABLE_DEBUGCONFIGURATION
 	FAudio_SetDebugConfiguration(*ppFAudio, &debugInit, NULL);
 #endif /* FAUDIO_DISABLE_DEBUGCONFIGURATION */
@@ -2029,7 +2025,7 @@ uint32_t FAudioVoice_SetChannelVolumes(
 		return FAUDIO_E_INVALID_CALL;
 	}
 
-	if (voice->audio->version > 7 && Channels != voice->outputChannels)
+	if (Channels != voice->outputChannels)
 	{
 		LOG_API_EXIT(voice->audio)
 		return FAUDIO_E_INVALID_CALL;
@@ -2602,9 +2598,8 @@ uint32_t FAudioSourceVoice_SubmitSourceBuffer(
 		/* "The value of LoopBegin + LoopLength must be greater than PlayBegin
 		 * and less than PlayBegin + PlayLength"
 		 */
-		if (	voice->audio->version > 7 && (
-			(loopBegin + loopLength) <= playBegin ||
-			(loopBegin + loopLength) > (playBegin + playLength))	)
+		if ((loopBegin + loopLength) <= playBegin ||
+		   (loopBegin + loopLength) > (playBegin + playLength))
 		{
 			LOG_API_EXIT(voice->audio)
 			return FAUDIO_E_INVALID_CALL;
@@ -2645,13 +2640,6 @@ uint32_t FAudioSourceVoice_SubmitSourceBuffer(
 		FAudio_memcpy(&entry->bufferWMA, pBufferWMA, sizeof(FAudioBufferWMA));
 	}
 	entry->next = NULL;
-
-	if (	voice->audio->version <= 7 && (
-		entry->buffer.LoopCount > 0 &&
-		entry->buffer.LoopBegin + entry->buffer.LoopLength <= entry->buffer.PlayBegin))
-	{
-		entry->buffer.LoopCount = 0;
-	}
 
 #ifdef FAUDIO_DUMP_VOICES
 	/* dumping current buffer, append into "data" section */
@@ -2914,8 +2902,7 @@ uint32_t FAudioSourceVoice_SetSourceSampleRate(
 
 	FAudio_PlatformLockMutex(voice->src.bufferLock);
 	LOG_MUTEX_LOCK(voice->audio, voice->src.bufferLock)
-	if (	voice->audio->version > 7 &&
-		voice->src.bufferList != NULL	)
+	if (voice->src.bufferList != NULL)
 	{
 		FAudio_PlatformUnlockMutex(voice->src.bufferLock);
 		LOG_MUTEX_UNLOCK(voice->audio, voice->src.bufferLock)

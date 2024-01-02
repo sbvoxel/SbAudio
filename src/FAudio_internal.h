@@ -375,7 +375,6 @@ void FAudio_OPERATIONSET_QueueSetFrequencyRatio(
 
 struct FAudio
 {
-	uint8_t version;
 	uint8_t active;
 	uint32_t refcount;
 	uint32_t initFlags;
