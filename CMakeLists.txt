@@ -68,13 +68,13 @@ set(SOUNDIO_SOURCES
 )
 
 if(SOUNDIO_HAVE_PULSEAUDIO)
-    set(LIBSOUNDIO_SOURCES ${LIBSOUNDIO_SOURCES}
-        "${libsoundio_SOURCE_DIR}/src/pulseaudio.c"
+    set(SOUNDIO_SOURCES ${SOUNDIO_SOURCES}
+        "src/soundio/pulseaudio.c"
     )
 endif()
 if(SOUNDIO_HAVE_WASAPI)
-    set(LIBSOUNDIO_SOURCES ${LIBSOUNDIO_SOURCES}
-        "${libsoundio_SOURCE_DIR}/src/wasapi.c"
+    set(SOUNDIO_SOURCES ${SOUNDIO_SOURCES}
+        "src/soundio/wasapi.c"
     )
 endif()
 
@@ -100,6 +100,13 @@ endif()
 
 # Should this be OBJECT instead?
 add_library(SbBackend STATIC ${SOUNDIO_SOURCES})
+
+if(SOUNDIO_HAVE_PULSEAUDIO)
+    target_compile_definitions(SbBackend PRIVATE SOUNDIO_HAVE_PULSEAUDIO=1)
+endif()
+if(SOUNDIO_HAVE_WASAPI)
+    target_compile_definitions(SbBackend PRIVATE SOUNDIO_HAVE_WASAPI=1)
+endif()
 
 # Source lists
 add_library(SbAudio
