@@ -128,11 +128,11 @@ endif()
 if (PLATFORM_WIN32)
     message(STATUS "not using SDL2")
 elseif (DEFINED SDL2_INCLUDE_DIRS AND DEFINED SDL2_LIBRARIES)
-    message(STATUS "using pre-defined SDL2 variables SDL2_INCLUDE_DIRS and SDL2_LIBRARIES")
+    message(STATUS "using pre-defined variables SDL2_INCLUDE_DIRS and SDL2_LIBRARIES")
     target_include_directories(SbAudio PUBLIC "$<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>")
     target_link_libraries(SbAudio PUBLIC ${SDL2_LIBRARIES})
 else()
-    # Only try to autodetect if both SDL2 variables aren't explicitly set
+    # Try to autodetect if either of the SDL2 variables aren't explicitly set
     find_package(SDL2 CONFIG)
     if (TARGET SDL2::SDL2)
         message(STATUS "using TARGET SDL2::SDL2")
