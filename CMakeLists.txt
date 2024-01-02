@@ -15,9 +15,6 @@ option(LOG_ASSERTIONS "Bind FAudio_assert to log, instead of platform's assert" 
 option(FORCE_ENABLE_DEBUGCONFIGURATION "Enable DebugConfiguration in all build types" OFF)
 option(DUMP_VOICES "Dump voices to RIFF WAVE files" OFF)
 option(BUILD_SHARED_LIBS "Build shared library" ON)
-if(WIN32)
-option(INSTALL_MINGW_DEPENDENCIES "Add dependent libraries to MinGW install target" OFF)
-endif()
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_EXTENSIONS OFF)
@@ -52,11 +49,6 @@ if(APPLE)
 elseif(WIN32)
     # "SbAudio.dll", not "libSbAudio.dll"
     set(CMAKE_SHARED_LIBRARY_PREFIX "")
-endif()
-
-# Helper function for finding/installing MinGW libs
-if(INSTALL_MINGW_DEPENDENCIES)
-    include(cmake/install_shared_libs.cmake)
 endif()
 
 # Source lists
@@ -125,11 +117,6 @@ target_include_directories(SbAudio PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-# MinGW builds should statically link libgcc
-if(MINGW)
-    target_link_libraries(SbAudio PRIVATE -static-libgcc)
-endif()
-
 # Soname
 set_target_properties(SbAudio PROPERTIES OUTPUT_NAME "SbAudio"
     VERSION ${LIB_VERSION}
@@ -153,31 +140,19 @@ elseif (DEFINED SDL2_INCLUDE_DIRS AND DEFINED SDL2_LIBRARIES)
     message(STATUS "using pre-defined SDL2 variables SDL2_INCLUDE_DIRS and SDL2_LIBRARIES")
     target_include_directories(SbAudio PUBLIC "$<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>")
     target_link_libraries(SbAudio PUBLIC ${SDL2_LIBRARIES})
-    if(INSTALL_MINGW_DEPENDENCIES)
-        install_shared_libs(${SDL2_LIBRARIES} DESTINATION bin NO_INSTALL_SYMLINKS)
-    endif()
 else()
     # Only try to autodetect if both SDL2 variables aren't explicitly set
     find_package(SDL2 CONFIG)
     if (TARGET SDL2::SDL2)
         message(STATUS "using TARGET SDL2::SDL2")
         target_link_libraries(SbAudio PUBLIC SDL2::SDL2)
-        if(INSTALL_MINGW_DEPENDENCIES)
-            install_shared_libs(TARGETS SDL2::SDL2 DESTINATION bin NO_INSTALL_SYMLINKS REQUIRED)
-        endif()
     elseif (TARGET SDL2)
         message(STATUS "using TARGET SDL2")
         target_link_libraries(SbAudio PUBLIC SDL2)
-        if(INSTALL_MINGW_DEPENDENCIES)
-            install_shared_libs(TARGETS SDL2 DESTINATION bin NO_INSTALL_SYMLINKS REQUIRED)
-        endif()
     else()
         message(STATUS "no TARGET SDL2::SDL2, or SDL2, using variables")
         target_include_directories(SbAudio PUBLIC "$<BUILD_INTERFACE:${SDL2_INCLUDE_DIRS}>")
         target_link_libraries(SbAudio PUBLIC ${SDL2_LIBRARIES})
-        if(INSTALL_MINGW_DEPENDENCIES)
-            install_shared_libs(${SDL2_LIBRARIES} DESTINATION bin NO_INSTALL_SYMLINKS)
-        endif()
     endif()
 endif()
 
