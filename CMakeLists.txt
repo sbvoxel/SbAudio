@@ -179,8 +179,8 @@ set_target_properties(SbAudio PROPERTIES OUTPUT_NAME "SbAudio"
 )
 
 # XNA_Song Support
-if(NOT XNASONG)
-    target_compile_definitions(SbAudio PRIVATE DISABLE_XNASONG)
+if(XNASONG)
+    target_compile_definitions(SbAudio PRIVATE ENABLE_XNASONG)
 endif()
 
 # Dump source voices to RIFF WAVE files

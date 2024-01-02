@@ -24,7 +24,7 @@
  *
  */
 
-#ifndef DISABLE_XNASONG
+#ifdef ENABLE_XNASONG
 
 #include "FAudio_internal.h"
 
@@ -347,4 +347,4 @@ FAUDIOAPI void XNA_GetSongVisualizationData(
     /* TODO: Visualization FAPO that reads in Song samples, FFT analysis */
 }
 
-#endif /* DISABLE_XNASONG */
+#endif /* ENABLE_XNASONG */
