@@ -37,6 +37,7 @@ Low-level (wrap the drivers / platform APIs):
     libsoundio
     PortAudio
     RtAudio
+    miniaudio
     SDL
 
 Platform APIs:
