@@ -605,8 +605,6 @@ void FAudio_UTF8_To_UTF16(const char *src, uint16_t *dst, size_t len)
     *dst = 0;
 }
 
-/* vim: set noexpandtab shiftwidth=8 tabstop=8: */
-
 #else
 
 extern int this_tu_is_empty;

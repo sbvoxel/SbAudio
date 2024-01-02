@@ -1556,5 +1556,3 @@ void F3DAudioCalculate(
         FAudio_assert(0 && "DELAY not implemented!");
     }
 }
-
-/* vim: set noexpandtab shiftwidth=8 tabstop=8: */

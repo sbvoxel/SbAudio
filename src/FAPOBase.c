@@ -447,5 +447,3 @@ void FAPOBase_EndProcess(FAPOBase *fapo)
 {
     /* I'm 100% sure my parameter block increment is wrong... */
 }
-
-/* vim: set noexpandtab shiftwidth=8 tabstop=8: */

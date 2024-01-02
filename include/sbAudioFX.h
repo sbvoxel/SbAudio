@@ -304,5 +304,3 @@ FAUDIOAPI void ReverbConvertI3DL2ToNative9(
 #endif /* __cplusplus */
 
 #endif /* FAUDIOFX_H */
-
-/* vim: set noexpandtab shiftwidth=8 tabstop=8: */

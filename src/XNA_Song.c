@@ -348,5 +348,3 @@ FAUDIOAPI void XNA_GetSongVisualizationData(
 }
 
 #endif /* DISABLE_XNASONG */
-
-/* vim: set noexpandtab shiftwidth=8 tabstop=8: */

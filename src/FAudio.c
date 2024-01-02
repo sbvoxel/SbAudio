@@ -3265,5 +3265,3 @@ static void FAudio_DUMPVOICE_WriteBuffer(
 }
 
 #endif /* FAUDIO_DUMP_VOICES */
-
-/* vim: set noexpandtab shiftwidth=8 tabstop=8: */

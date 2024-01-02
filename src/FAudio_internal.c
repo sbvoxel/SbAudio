@@ -1968,5 +1968,3 @@ void FAudio_INTERNAL_DecodeWMAERROR(
     FAudio_zero(decodeCache, samples * voice->src.format->nChannels * sizeof(float));
     LOG_FUNC_EXIT(voice->audio)
 }
-
-/* vim: set noexpandtab shiftwidth=8 tabstop=8: */

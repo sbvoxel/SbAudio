@@ -882,5 +882,3 @@ typedef struct FAudioIOStreamOut
 FAudioIOStreamOut* FAudio_fopen_out(const char *path, const char *mode);
 void FAudio_close_out(FAudioIOStreamOut *io);
 #endif /* FAUDIO_DUMP_VOICES */
-
-/* vim: set noexpandtab shiftwidth=8 tabstop=8: */

@@ -258,5 +258,3 @@ F3DAUDIOAPI void F3DAudioCalculate(
 #endif /* __cplusplus */
 
 #endif /* F3DAUDIO_H */
-
-/* vim: set noexpandtab shiftwidth=8 tabstop=8: */

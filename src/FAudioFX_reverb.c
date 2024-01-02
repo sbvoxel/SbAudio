@@ -1974,5 +1974,3 @@ void ReverbConvertI3DL2ToNative9(
 
     pNative->WetDryMix = pI3DL2->WetDryMix;
 }
-
-/* vim: set noexpandtab shiftwidth=8 tabstop=8: */

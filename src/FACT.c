@@ -3042,5 +3042,3 @@ uint32_t FACTCue_SetOutputVoiceMatrix(
     /* TODO */
     return 0;
 }
-
-/* vim: set noexpandtab shiftwidth=8 tabstop=8: */
