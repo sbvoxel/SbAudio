@@ -120,12 +120,12 @@ uint32_t load_data(const char *filename)
 	if (dwChunkSize > sizeof(FAudioWaveFormatExtensible))
 	{
 		wfx = (FAudioWaveFormatExtensible *) malloc(dwChunkSize);
-		printf("chunk-size exceeds wfx size, allocating more: %u > %u\n", dwChunkSize, sizeof(FAudioWaveFormatExtensible));
+		printf("chunk-size exceeds wfx size, allocating more: %u > %lu\n", dwChunkSize, sizeof(FAudioWaveFormatExtensible));
 	}
 	else
 	{
 		wfx = (FAudioWaveFormatExtensible *) malloc(sizeof(FAudioWaveFormatExtensible));
-		printf("chunk-size equal or less than wfx size, capping: %u <= %u\n", dwChunkSize, sizeof(FAudioWaveFormatExtensible));
+		printf("chunk-size equal or less than wfx size, capping: %u <= %lu\n", dwChunkSize, sizeof(FAudioWaveFormatExtensible));
 	}
 	ReadChunkData(hFile, wfx, dwChunkSize, dwChunkPosition );
 

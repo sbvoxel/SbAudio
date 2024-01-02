@@ -74,8 +74,8 @@ void FAudioTool_Update()
 	ImGui::SetNextWindowPos(ImVec2(0.0f, 125.0f));
 	ImGui::SetNextWindowSize(ImVec2(640.0f, 65.0f));
 	ImGui::Begin("Current pool stats");
-		ImGui::Text("Mono Voices: %d", monoPool.size());
-		ImGui::Text("Stereo Voices: %d", stereoPool.size());
+		ImGui::Text("Mono Voices: %lu", monoPool.size());
+		ImGui::Text("Stereo Voices: %lu", stereoPool.size());
 	ImGui::End();
 
 	/* Engine Work */
