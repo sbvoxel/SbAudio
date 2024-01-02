@@ -323,7 +323,7 @@ unsigned int stb_rand()
    int idx = stb__mt_index;
    unsigned int  s,r;
    int i;
-	
+    
    if (idx >= STB__MT_LEN*sizeof(unsigned int)) {
       if (idx > STB__MT_LEN*sizeof(unsigned int))
          stb_srand(0);
