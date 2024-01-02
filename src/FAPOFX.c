@@ -28,62 +28,62 @@
 #include "FAudio_internal.h"
 
 uint32_t FAPOFX_CreateFX(
-	const FAudioGUID *clsid,
-	FAPO **pEffect,
-	const void *pInitData,
-	uint32_t InitDataByteSize
+    const FAudioGUID *clsid,
+    FAPO **pEffect,
+    const void *pInitData,
+    uint32_t InitDataByteSize
 ) {
-	return FAPOFX_CreateFXWithCustomAllocatorEXT(
-		clsid,
-		pEffect,
-		pInitData,
-		InitDataByteSize,
-		FAudio_malloc,
-		FAudio_free,
-		FAudio_realloc
-	);
+    return FAPOFX_CreateFXWithCustomAllocatorEXT(
+        clsid,
+        pEffect,
+        pInitData,
+        InitDataByteSize,
+        FAudio_malloc,
+        FAudio_free,
+        FAudio_realloc
+    );
 }
 
 uint32_t FAPOFX_CreateFXWithCustomAllocatorEXT(
-	const FAudioGUID *clsid,
-	FAPO **pEffect,
-	const void *pInitData,
-	uint32_t InitDataByteSize,
-	FAudioMallocFunc customMalloc,
-	FAudioFreeFunc customFree,
-	FAudioReallocFunc customRealloc
+    const FAudioGUID *clsid,
+    FAPO **pEffect,
+    const void *pInitData,
+    uint32_t InitDataByteSize,
+    FAudioMallocFunc customMalloc,
+    FAudioFreeFunc customFree,
+    FAudioReallocFunc customRealloc
 ) {
-	#define CHECK_AND_RETURN(effect) \
-		if (FAudio_memcmp(clsid, &FAPOFX_CLSID_FX##effect, sizeof(FAudioGUID)) == 0) \
-		{ \
-			return FAPOFXCreate##effect( \
-				pEffect, \
-				pInitData, \
-				InitDataByteSize, \
-				customMalloc, \
-				customFree, \
-				customRealloc, \
-				0 \
-			); \
-		} \
-		else if (FAudio_memcmp(clsid, &FAPOFX_CLSID_FX##effect##_LEGACY, sizeof(FAudioGUID)) == 0) \
-		{ \
-			return FAPOFXCreate##effect( \
-				pEffect, \
-				pInitData, \
-				InitDataByteSize, \
-				customMalloc, \
-				customFree, \
-				customRealloc, \
-				1 \
-			); \
-		}
-	CHECK_AND_RETURN(EQ)
-	CHECK_AND_RETURN(MasteringLimiter)
-	CHECK_AND_RETURN(Reverb)
-	CHECK_AND_RETURN(Echo)
-	#undef CHECK_AND_RETURN
-	return -1;
+    #define CHECK_AND_RETURN(effect) \
+        if (FAudio_memcmp(clsid, &FAPOFX_CLSID_FX##effect, sizeof(FAudioGUID)) == 0) \
+        { \
+            return FAPOFXCreate##effect( \
+                pEffect, \
+                pInitData, \
+                InitDataByteSize, \
+                customMalloc, \
+                customFree, \
+                customRealloc, \
+                0 \
+            ); \
+        } \
+        else if (FAudio_memcmp(clsid, &FAPOFX_CLSID_FX##effect##_LEGACY, sizeof(FAudioGUID)) == 0) \
+        { \
+            return FAPOFXCreate##effect( \
+                pEffect, \
+                pInitData, \
+                InitDataByteSize, \
+                customMalloc, \
+                customFree, \
+                customRealloc, \
+                1 \
+            ); \
+        }
+    CHECK_AND_RETURN(EQ)
+    CHECK_AND_RETURN(MasteringLimiter)
+    CHECK_AND_RETURN(Reverb)
+    CHECK_AND_RETURN(Echo)
+    #undef CHECK_AND_RETURN
+    return -1;
 }
 
 /* vim: set noexpandtab shiftwidth=8 tabstop=8: */

@@ -36,28 +36,28 @@
  * extern int32_t producer;
  * typedef struct MyFAPOParams
  * {
- *	uint32_t something;
+ *    uint32_t something;
  * } MyFAPOParams;
  * typedef struct MyFAPO
  * {
- *	FAPOBase base;
- *	uint32_t somethingElse;
+ *    FAPOBase base;
+ *    uint32_t somethingElse;
  * } MyFAPO;
  * void MyFAPO_Free(void* fapo)
  * {
- *	MyFAPO *mine = (MyFAPO*) fapo;
- *	mine->base.pFree(mine->base.m_pParameterBlocks);
- *	mine->base.pFree(fapo);
+ *    MyFAPO *mine = (MyFAPO*) fapo;
+ *    mine->base.pFree(mine->base.m_pParameterBlocks);
+ *    mine->base.pFree(fapo);
  * }
  *
  * MyFAPO *result = (MyFAPO*) SDL_malloc(sizeof(MyFAPO));
  * uint8_t *params = (uint8_t*) SDL_malloc(sizeof(MyFAPOParams) * 3);
  * CreateFAPOBase(
- *	&result->base,
- *	&MyFAPOProperties,
- *	params,
- *	sizeof(MyFAPOParams),
- *	producer
+ *    &result->base,
+ *    &MyFAPOProperties,
+ *    params,
+ *    sizeof(MyFAPOParams),
+ *    producer
  * );
  * result->base.base.Initialize = (InitializeFunc) MyFAPO_Initialize;
  * result->base.base.Process = (ProcessFunc) MyFAPO_Process;
@@ -75,19 +75,19 @@ extern "C" {
 
 /* Constants */
 
-#define FAPOBASE_DEFAULT_FORMAT_TAG		FAUDIO_FORMAT_IEEE_FLOAT
-#define FAPOBASE_DEFAULT_FORMAT_MIN_CHANNELS	FAPO_MIN_CHANNELS
-#define FAPOBASE_DEFAULT_FORMAT_MAX_CHANNELS	FAPO_MAX_CHANNELS
-#define FAPOBASE_DEFAULT_FORMAT_MIN_FRAMERATE	FAPO_MIN_FRAMERATE
-#define FAPOBASE_DEFAULT_FORMAT_MAX_FRAMERATE	FAPO_MAX_FRAMERATE
-#define FAPOBASE_DEFAULT_FORMAT_BITSPERSAMPLE	32
+#define FAPOBASE_DEFAULT_FORMAT_TAG        FAUDIO_FORMAT_IEEE_FLOAT
+#define FAPOBASE_DEFAULT_FORMAT_MIN_CHANNELS    FAPO_MIN_CHANNELS
+#define FAPOBASE_DEFAULT_FORMAT_MAX_CHANNELS    FAPO_MAX_CHANNELS
+#define FAPOBASE_DEFAULT_FORMAT_MIN_FRAMERATE    FAPO_MIN_FRAMERATE
+#define FAPOBASE_DEFAULT_FORMAT_MAX_FRAMERATE    FAPO_MAX_FRAMERATE
+#define FAPOBASE_DEFAULT_FORMAT_BITSPERSAMPLE    32
 
 #define FAPOBASE_DEFAULT_FLAG ( \
-	FAPO_FLAG_CHANNELS_MUST_MATCH | \
-	FAPO_FLAG_FRAMERATE_MUST_MATCH | \
-	FAPO_FLAG_BITSPERSAMPLE_MUST_MATCH | \
-	FAPO_FLAG_BUFFERCOUNT_MUST_MATCH | \
-	FAPO_FLAG_INPLACE_SUPPORTED \
+    FAPO_FLAG_CHANNELS_MUST_MATCH | \
+    FAPO_FLAG_FRAMERATE_MUST_MATCH | \
+    FAPO_FLAG_BITSPERSAMPLE_MUST_MATCH | \
+    FAPO_FLAG_BUFFERCOUNT_MUST_MATCH | \
+    FAPO_FLAG_INPLACE_SUPPORTED \
 )
 
 #define FAPOBASE_DEFAULT_BUFFER_COUNT 1
@@ -97,64 +97,64 @@ extern "C" {
 typedef struct FAPOBase FAPOBase;
 
 typedef void (FAPOCALL * OnSetParametersFunc)(
-	FAPOBase *fapo,
-	const void* parameters,
-	uint32_t parametersSize
+    FAPOBase *fapo,
+    const void* parameters,
+    uint32_t parametersSize
 );
 
 #pragma pack(push, 8)
 struct FAPOBase
 {
-	/* Base Classes/Interfaces */
-	FAPO base;
-	void (FAPOCALL *Destructor)(void*);
+    /* Base Classes/Interfaces */
+    FAPO base;
+    void (FAPOCALL *Destructor)(void*);
 
-	/* Public Virtual Functions */
-	OnSetParametersFunc OnSetParameters;
+    /* Public Virtual Functions */
+    OnSetParametersFunc OnSetParameters;
 
-	/* Private Variables */
-	const FAPORegistrationProperties *m_pRegistrationProperties;
-	void* m_pfnMatrixMixFunction;
-	float *m_pfl32MatrixCoefficients;
-	uint32_t m_nSrcFormatType;
-	uint8_t m_fIsScalarMatrix;
-	uint8_t m_fIsLocked;
-	uint8_t *m_pParameterBlocks;
-	uint8_t *m_pCurrentParameters;
-	uint8_t *m_pCurrentParametersInternal;
-	uint32_t m_uCurrentParametersIndex;
-	uint32_t m_uParameterBlockByteSize;
-	uint8_t m_fNewerResultsReady;
-	uint8_t m_fProducer;
+    /* Private Variables */
+    const FAPORegistrationProperties *m_pRegistrationProperties;
+    void* m_pfnMatrixMixFunction;
+    float *m_pfl32MatrixCoefficients;
+    uint32_t m_nSrcFormatType;
+    uint8_t m_fIsScalarMatrix;
+    uint8_t m_fIsLocked;
+    uint8_t *m_pParameterBlocks;
+    uint8_t *m_pCurrentParameters;
+    uint8_t *m_pCurrentParametersInternal;
+    uint32_t m_uCurrentParametersIndex;
+    uint32_t m_uParameterBlockByteSize;
+    uint8_t m_fNewerResultsReady;
+    uint8_t m_fProducer;
 
-	/* Protected Variables */
-	int32_t m_lReferenceCount; /* LONG */
+    /* Protected Variables */
+    int32_t m_lReferenceCount; /* LONG */
 
-	/* Allocator callbacks, NOT part of XAPOBase spec! */
-	FAudioMallocFunc pMalloc;
-	FAudioFreeFunc pFree;
-	FAudioReallocFunc pRealloc;
+    /* Allocator callbacks, NOT part of XAPOBase spec! */
+    FAudioMallocFunc pMalloc;
+    FAudioFreeFunc pFree;
+    FAudioReallocFunc pRealloc;
 };
 #pragma pack(pop)
 
 FAPOAPI void CreateFAPOBase(
-	FAPOBase *fapo,
-	const FAPORegistrationProperties *pRegistrationProperties,
-	uint8_t *pParameterBlocks,
-	uint32_t uParameterBlockByteSize,
-	uint8_t fProducer
+    FAPOBase *fapo,
+    const FAPORegistrationProperties *pRegistrationProperties,
+    uint8_t *pParameterBlocks,
+    uint32_t uParameterBlockByteSize,
+    uint8_t fProducer
 );
 
 /* See "extensions/CustomAllocatorEXT.txt" for more information. */
 FAPOAPI void CreateFAPOBaseWithCustomAllocatorEXT(
-	FAPOBase *fapo,
-	const FAPORegistrationProperties *pRegistrationProperties,
-	uint8_t *pParameterBlocks,
-	uint32_t uParameterBlockByteSize,
-	uint8_t fProducer,
-	FAudioMallocFunc customMalloc,
-	FAudioFreeFunc customFree,
-	FAudioReallocFunc customRealloc
+    FAPOBase *fapo,
+    const FAPORegistrationProperties *pRegistrationProperties,
+    uint8_t *pParameterBlocks,
+    uint32_t uParameterBlockByteSize,
+    uint8_t fProducer,
+    FAudioMallocFunc customMalloc,
+    FAudioFreeFunc customFree,
+    FAudioReallocFunc customRealloc
 );
 
 FAPOAPI int32_t FAPOBase_AddRef(FAPOBase *fapo);
@@ -162,91 +162,91 @@ FAPOAPI int32_t FAPOBase_AddRef(FAPOBase *fapo);
 FAPOAPI int32_t FAPOBase_Release(FAPOBase *fapo);
 
 FAPOAPI uint32_t FAPOBase_GetRegistrationProperties(
-	FAPOBase *fapo,
-	FAPORegistrationProperties **ppRegistrationProperties
+    FAPOBase *fapo,
+    FAPORegistrationProperties **ppRegistrationProperties
 );
 
 FAPOAPI uint32_t FAPOBase_IsInputFormatSupported(
-	FAPOBase *fapo,
-	const FAudioWaveFormatEx *pOutputFormat,
-	const FAudioWaveFormatEx *pRequestedInputFormat,
-	FAudioWaveFormatEx **ppSupportedInputFormat
+    FAPOBase *fapo,
+    const FAudioWaveFormatEx *pOutputFormat,
+    const FAudioWaveFormatEx *pRequestedInputFormat,
+    FAudioWaveFormatEx **ppSupportedInputFormat
 );
 
 FAPOAPI uint32_t FAPOBase_IsOutputFormatSupported(
-	FAPOBase *fapo,
-	const FAudioWaveFormatEx *pInputFormat,
-	const FAudioWaveFormatEx *pRequestedOutputFormat,
-	FAudioWaveFormatEx **ppSupportedOutputFormat
+    FAPOBase *fapo,
+    const FAudioWaveFormatEx *pInputFormat,
+    const FAudioWaveFormatEx *pRequestedOutputFormat,
+    FAudioWaveFormatEx **ppSupportedOutputFormat
 );
 
 FAPOAPI uint32_t FAPOBase_Initialize(
-	FAPOBase *fapo,
-	const void* pData,
-	uint32_t DataByteSize
+    FAPOBase *fapo,
+    const void* pData,
+    uint32_t DataByteSize
 );
 
 FAPOAPI void FAPOBase_Reset(FAPOBase *fapo);
 
 FAPOAPI uint32_t FAPOBase_LockForProcess(
-	FAPOBase *fapo,
-	uint32_t InputLockedParameterCount,
-	const FAPOLockForProcessBufferParameters *pInputLockedParameters,
-	uint32_t OutputLockedParameterCount,
-	const FAPOLockForProcessBufferParameters *pOutputLockedParameters
+    FAPOBase *fapo,
+    uint32_t InputLockedParameterCount,
+    const FAPOLockForProcessBufferParameters *pInputLockedParameters,
+    uint32_t OutputLockedParameterCount,
+    const FAPOLockForProcessBufferParameters *pOutputLockedParameters
 );
 
 FAPOAPI void FAPOBase_UnlockForProcess(FAPOBase *fapo);
 
 FAPOAPI uint32_t FAPOBase_CalcInputFrames(
-	FAPOBase *fapo,
-	uint32_t OutputFrameCount
+    FAPOBase *fapo,
+    uint32_t OutputFrameCount
 );
 
 FAPOAPI uint32_t FAPOBase_CalcOutputFrames(
-	FAPOBase *fapo,
-	uint32_t InputFrameCount
+    FAPOBase *fapo,
+    uint32_t InputFrameCount
 );
 
 FAPOAPI uint32_t FAPOBase_ValidateFormatDefault(
-	FAPOBase *fapo,
-	FAudioWaveFormatEx *pFormat,
-	uint8_t fOverwrite
+    FAPOBase *fapo,
+    FAudioWaveFormatEx *pFormat,
+    uint8_t fOverwrite
 );
 
 FAPOAPI uint32_t FAPOBase_ValidateFormatPair(
-	FAPOBase *fapo,
-	const FAudioWaveFormatEx *pSupportedFormat,
-	FAudioWaveFormatEx *pRequestedFormat,
-	uint8_t fOverwrite
+    FAPOBase *fapo,
+    const FAudioWaveFormatEx *pSupportedFormat,
+    FAudioWaveFormatEx *pRequestedFormat,
+    uint8_t fOverwrite
 );
 
 FAPOAPI void FAPOBase_ProcessThru(
-	FAPOBase *fapo,
-	void* pInputBuffer,
-	float *pOutputBuffer,
-	uint32_t FrameCount,
-	uint16_t InputChannelCount,
-	uint16_t OutputChannelCount,
-	uint8_t MixWithOutput
+    FAPOBase *fapo,
+    void* pInputBuffer,
+    float *pOutputBuffer,
+    uint32_t FrameCount,
+    uint16_t InputChannelCount,
+    uint16_t OutputChannelCount,
+    uint8_t MixWithOutput
 );
 
 FAPOAPI void FAPOBase_SetParameters(
-	FAPOBase *fapo,
-	const void* pParameters,
-	uint32_t ParameterByteSize
+    FAPOBase *fapo,
+    const void* pParameters,
+    uint32_t ParameterByteSize
 );
 
 FAPOAPI void FAPOBase_GetParameters(
-	FAPOBase *fapo,
-	void* pParameters,
-	uint32_t ParameterByteSize
+    FAPOBase *fapo,
+    void* pParameters,
+    uint32_t ParameterByteSize
 );
 
 FAPOAPI void FAPOBase_OnSetParameters(
-	FAPOBase *fapo,
-	const void* parameters,
-	uint32_t parametersSize
+    FAPOBase *fapo,
+    const void* parameters,
+    uint32_t parametersSize
 );
 
 FAPOAPI uint8_t FAPOBase_ParametersChanged(FAPOBase *fapo);

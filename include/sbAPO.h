@@ -52,8 +52,8 @@ extern "C" {
 
 typedef enum FAPOBufferFlags
 {
-	FAPO_BUFFER_SILENT,
-	FAPO_BUFFER_VALID
+    FAPO_BUFFER_SILENT,
+    FAPO_BUFFER_VALID
 } FAPOBufferFlags;
 
 /* Structures */
@@ -62,29 +62,29 @@ typedef enum FAPOBufferFlags
 
 typedef struct FAPORegistrationProperties
 {
-	FAudioGUID clsid;
-	int16_t FriendlyName[256]; /* Win32 wchar_t */
-	int16_t CopyrightInfo[256]; /* Win32 wchar_t */
-	uint32_t MajorVersion;
-	uint32_t MinorVersion;
-	uint32_t Flags;
-	uint32_t MinInputBufferCount;
-	uint32_t MaxInputBufferCount;
-	uint32_t MinOutputBufferCount;
-	uint32_t MaxOutputBufferCount;
+    FAudioGUID clsid;
+    int16_t FriendlyName[256]; /* Win32 wchar_t */
+    int16_t CopyrightInfo[256]; /* Win32 wchar_t */
+    uint32_t MajorVersion;
+    uint32_t MinorVersion;
+    uint32_t Flags;
+    uint32_t MinInputBufferCount;
+    uint32_t MaxInputBufferCount;
+    uint32_t MinOutputBufferCount;
+    uint32_t MaxOutputBufferCount;
 } FAPORegistrationProperties;
 
 typedef struct FAPOLockForProcessBufferParameters
 {
-	const FAudioWaveFormatEx *pFormat;
-	uint32_t MaxFrameCount;
+    const FAudioWaveFormatEx *pFormat;
+    uint32_t MaxFrameCount;
 } FAPOLockForProcessBufferParameters;
 
 typedef struct FAPOProcessBufferParameters
 {
-	void* pBuffer;
-	FAPOBufferFlags BufferFlags;
-	uint32_t ValidFrameCount;
+    void* pBuffer;
+    FAPOBufferFlags BufferFlags;
+    uint32_t ValidFrameCount;
 } FAPOProcessBufferParameters;
 
 #pragma pack(pop)
@@ -99,12 +99,12 @@ typedef struct FAPOProcessBufferParameters
 
 #define FAPO_REGISTRATION_STRING_LENGTH 256
 
-#define FAPO_FLAG_CHANNELS_MUST_MATCH		0x00000001
-#define FAPO_FLAG_FRAMERATE_MUST_MATCH		0x00000002
-#define FAPO_FLAG_BITSPERSAMPLE_MUST_MATCH	0x00000004
-#define FAPO_FLAG_BUFFERCOUNT_MUST_MATCH	0x00000008
-#define FAPO_FLAG_INPLACE_REQUIRED		0x00000020
-#define FAPO_FLAG_INPLACE_SUPPORTED		0x00000010
+#define FAPO_FLAG_CHANNELS_MUST_MATCH        0x00000001
+#define FAPO_FLAG_FRAMERATE_MUST_MATCH        0x00000002
+#define FAPO_FLAG_BITSPERSAMPLE_MUST_MATCH    0x00000004
+#define FAPO_FLAG_BUFFERCOUNT_MUST_MATCH    0x00000008
+#define FAPO_FLAG_INPLACE_REQUIRED        0x00000020
+#define FAPO_FLAG_INPLACE_SUPPORTED        0x00000010
 
 /* FAPO Interface */
 
@@ -114,88 +114,88 @@ typedef struct FAPO FAPO;
 #endif /* FAPO_DECL */
 
 typedef int32_t (FAPOCALL * AddRefFunc)(
-	void *fapo
+    void *fapo
 );
 typedef int32_t (FAPOCALL * ReleaseFunc)(
-	void *fapo
+    void *fapo
 );
 typedef uint32_t (FAPOCALL * GetRegistrationPropertiesFunc)(
-	void* fapo,
-	FAPORegistrationProperties **ppRegistrationProperties
+    void* fapo,
+    FAPORegistrationProperties **ppRegistrationProperties
 );
 typedef uint32_t (FAPOCALL * IsInputFormatSupportedFunc)(
-	void* fapo,
-	const FAudioWaveFormatEx *pOutputFormat,
-	const FAudioWaveFormatEx *pRequestedInputFormat,
-	FAudioWaveFormatEx **ppSupportedInputFormat
+    void* fapo,
+    const FAudioWaveFormatEx *pOutputFormat,
+    const FAudioWaveFormatEx *pRequestedInputFormat,
+    FAudioWaveFormatEx **ppSupportedInputFormat
 );
 typedef uint32_t (FAPOCALL * IsOutputFormatSupportedFunc)(
-	void* fapo,
-	const FAudioWaveFormatEx *pInputFormat,
-	const FAudioWaveFormatEx *pRequestedOutputFormat,
-	FAudioWaveFormatEx **ppSupportedOutputFormat
+    void* fapo,
+    const FAudioWaveFormatEx *pInputFormat,
+    const FAudioWaveFormatEx *pRequestedOutputFormat,
+    FAudioWaveFormatEx **ppSupportedOutputFormat
 );
 typedef uint32_t (FAPOCALL * InitializeFunc)(
-	void* fapo,
-	const void* pData,
-	uint32_t DataByteSize
+    void* fapo,
+    const void* pData,
+    uint32_t DataByteSize
 );
 typedef void (FAPOCALL * ResetFunc)(
-	void* fapo
+    void* fapo
 );
 typedef uint32_t (FAPOCALL * LockForProcessFunc)(
-	void* fapo,
-	uint32_t InputLockedParameterCount,
-	const FAPOLockForProcessBufferParameters *pInputLockedParameters,
-	uint32_t OutputLockedParameterCount,
-	const FAPOLockForProcessBufferParameters *pOutputLockedParameters
+    void* fapo,
+    uint32_t InputLockedParameterCount,
+    const FAPOLockForProcessBufferParameters *pInputLockedParameters,
+    uint32_t OutputLockedParameterCount,
+    const FAPOLockForProcessBufferParameters *pOutputLockedParameters
 );
 typedef void (FAPOCALL * UnlockForProcessFunc)(
-	void* fapo
+    void* fapo
 );
 typedef void (FAPOCALL * ProcessFunc)(
-	void* fapo,
-	uint32_t InputProcessParameterCount,
-	const FAPOProcessBufferParameters* pInputProcessParameters,
-	uint32_t OutputProcessParameterCount,
-	FAPOProcessBufferParameters* pOutputProcessParameters,
-	int32_t IsEnabled
+    void* fapo,
+    uint32_t InputProcessParameterCount,
+    const FAPOProcessBufferParameters* pInputProcessParameters,
+    uint32_t OutputProcessParameterCount,
+    FAPOProcessBufferParameters* pOutputProcessParameters,
+    int32_t IsEnabled
 );
 typedef uint32_t (FAPOCALL * CalcInputFramesFunc)(
-	void* fapo,
-	uint32_t OutputFrameCount
+    void* fapo,
+    uint32_t OutputFrameCount
 );
 typedef uint32_t (FAPOCALL * CalcOutputFramesFunc)(
-	void* fapo,
-	uint32_t InputFrameCount
+    void* fapo,
+    uint32_t InputFrameCount
 );
 typedef void (FAPOCALL * SetParametersFunc)(
-	void* fapo,
-	const void* pParameters,
-	uint32_t ParameterByteSize
+    void* fapo,
+    const void* pParameters,
+    uint32_t ParameterByteSize
 );
 typedef void (FAPOCALL * GetParametersFunc)(
-	void* fapo,
-	void* pParameters,
-	uint32_t ParameterByteSize
+    void* fapo,
+    void* pParameters,
+    uint32_t ParameterByteSize
 );
 
 struct FAPO
 {
-	AddRefFunc AddRef;
-	ReleaseFunc Release;
-	GetRegistrationPropertiesFunc GetRegistrationProperties;
-	IsInputFormatSupportedFunc IsInputFormatSupported;
-	IsOutputFormatSupportedFunc IsOutputFormatSupported;
-	InitializeFunc Initialize;
-	ResetFunc Reset;
-	LockForProcessFunc LockForProcess;
-	UnlockForProcessFunc UnlockForProcess;
-	ProcessFunc Process;
-	CalcInputFramesFunc CalcInputFrames;
-	CalcOutputFramesFunc CalcOutputFrames;
-	SetParametersFunc SetParameters;
-	GetParametersFunc GetParameters;
+    AddRefFunc AddRef;
+    ReleaseFunc Release;
+    GetRegistrationPropertiesFunc GetRegistrationProperties;
+    IsInputFormatSupportedFunc IsInputFormatSupported;
+    IsOutputFormatSupportedFunc IsOutputFormatSupported;
+    InitializeFunc Initialize;
+    ResetFunc Reset;
+    LockForProcessFunc LockForProcess;
+    UnlockForProcessFunc UnlockForProcess;
+    ProcessFunc Process;
+    CalcInputFramesFunc CalcInputFrames;
+    CalcOutputFramesFunc CalcOutputFrames;
+    SetParametersFunc SetParameters;
+    GetParametersFunc GetParameters;
 };
 
 #ifdef __cplusplus

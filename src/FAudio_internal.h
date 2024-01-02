@@ -90,24 +90,24 @@ extern void FAudio_Log(char const *msg);
 /* FIXME: Assuming little-endian! */
 #define FAudio_swap16LE(x) (x)
 #define FAudio_swap16BE(x) \
-	((x >> 8)	& 0x00FF) | \
-	((x << 8)	& 0xFF00)
+    ((x >> 8)    & 0x00FF) | \
+    ((x << 8)    & 0xFF00)
 #define FAudio_swap32LE(x) (x)
 #define FAudio_swap32BE(x) \
-	((x >> 24)	& 0x000000FF) | \
-	((x >> 8)	& 0x0000FF00) | \
-	((x << 8)	& 0x00FF0000) | \
-	((x << 24)	& 0xFF000000)
+    ((x >> 24)    & 0x000000FF) | \
+    ((x >> 8)    & 0x0000FF00) | \
+    ((x << 8)    & 0x00FF0000) | \
+    ((x << 24)    & 0xFF000000)
 #define FAudio_swap64LE(x) (x)
 #define FAudio_swap64BE(x) \
-	((x >> 32)	& 0x00000000000000FF) | \
-	((x >> 24)	& 0x000000000000FF00) | \
-	((x >> 16)	& 0x0000000000FF0000) | \
-	((x >> 8)	& 0x00000000FF000000) | \
-	((x << 8)	& 0x000000FF00000000) | \
-	((x << 16)	& 0x0000FF0000000000) | \
-	((x << 24)	& 0x00FF000000000000) | \
-	((x << 32)	& 0xFF00000000000000)
+    ((x >> 32)    & 0x00000000000000FF) | \
+    ((x >> 24)    & 0x000000000000FF00) | \
+    ((x >> 16)    & 0x0000000000FF0000) | \
+    ((x >> 8)    & 0x00000000FF000000) | \
+    ((x << 8)    & 0x000000FF00000000) | \
+    ((x << 16)    & 0x0000FF0000000000) | \
+    ((x << 24)    & 0x00FF000000000000) | \
+    ((x << 32)    & 0xFF00000000000000)
 #else
 #include <SDL_stdinc.h>
 #include <SDL_assert.h>
@@ -154,14 +154,14 @@ extern void FAudio_Log(char const *msg);
 
 #ifdef FAUDIO_LOG_ASSERTIONS
 #define FAudio_assert(condition) \
-	{ \
-		static uint8_t logged = 0; \
-		if (!(condition) && !logged) \
-		{ \
-			SDL_Log("Assertion failed: %s", #condition); \
-			logged = 1; \
-		} \
-	}
+    { \
+        static uint8_t logged = 0; \
+        if (!(condition) && !logged) \
+        { \
+            SDL_Log("Assertion failed: %s", #condition); \
+            logged = 1; \
+        } \
+    }
 #else
 #define FAudio_assert SDL_assert
 #endif
@@ -182,11 +182,11 @@ extern void FAudio_Log(char const *msg);
 
 /* Easy Macros */
 #define FAudio_min(val1, val2) \
-	(val1 < val2 ? val1 : val2)
+    (val1 < val2 ? val1 : val2)
 #define FAudio_max(val1, val2) \
-	(val1 > val2 ? val1 : val2)
+    (val1 > val2 ? val1 : val2)
 #define FAudio_clamp(val, min, max) \
-	(val > max ? max : (val < min ? min : val))
+    (val > max ? max : (val < min ? min : val))
 
 /* Threading Types */
 
@@ -195,9 +195,9 @@ typedef void* FAudioMutex;
 typedef int32_t (FAUDIOCALL * FAudioThreadFunc)(void* data);
 typedef enum FAudioThreadPriority
 {
-	FAUDIO_THREAD_PRIORITY_LOW,
-	FAUDIO_THREAD_PRIORITY_NORMAL,
-	FAUDIO_THREAD_PRIORITY_HIGH,
+    FAUDIO_THREAD_PRIORITY_LOW,
+    FAUDIO_THREAD_PRIORITY_NORMAL,
+    FAUDIO_THREAD_PRIORITY_HIGH,
 } FAudioThreadPriority;
 
 /* Linked Lists */
@@ -205,68 +205,68 @@ typedef enum FAudioThreadPriority
 typedef struct LinkedList LinkedList;
 struct LinkedList
 {
-	void* entry;
-	LinkedList *next;
+    void* entry;
+    LinkedList *next;
 };
 void LinkedList_AddEntry(
-	LinkedList **start,
-	void* toAdd,
-	FAudioMutex lock,
-	FAudioMallocFunc pMalloc
+    LinkedList **start,
+    void* toAdd,
+    FAudioMutex lock,
+    FAudioMallocFunc pMalloc
 );
 void LinkedList_PrependEntry(
-	LinkedList **start,
-	void* toAdd,
-	FAudioMutex lock,
-	FAudioMallocFunc pMalloc
+    LinkedList **start,
+    void* toAdd,
+    FAudioMutex lock,
+    FAudioMallocFunc pMalloc
 );
 void LinkedList_RemoveEntry(
-	LinkedList **start,
-	void* toRemove,
-	FAudioMutex lock,
-	FAudioFreeFunc pFree
+    LinkedList **start,
+    void* toRemove,
+    FAudioMutex lock,
+    FAudioFreeFunc pFree
 );
 
 /* Internal FAudio Types */
 
 typedef enum FAudioVoiceType
 {
-	FAUDIO_VOICE_SOURCE,
-	FAUDIO_VOICE_SUBMIX,
-	FAUDIO_VOICE_MASTER
+    FAUDIO_VOICE_SOURCE,
+    FAUDIO_VOICE_SUBMIX,
+    FAUDIO_VOICE_MASTER
 } FAudioVoiceType;
 
 typedef struct FAudioBufferEntry FAudioBufferEntry;
 struct FAudioBufferEntry
 {
-	FAudioBuffer buffer;
-	FAudioBufferWMA bufferWMA;
-	FAudioBufferEntry *next;
+    FAudioBuffer buffer;
+    FAudioBufferWMA bufferWMA;
+    FAudioBufferEntry *next;
 };
 
 typedef void (FAUDIOCALL * FAudioDecodeCallback)(
-	FAudioVoice *voice,
-	FAudioBuffer *buffer,	/* Buffer to decode */
-	float *decodeCache,	/* Decode into here */
-	uint32_t samples	/* Samples to decode */
+    FAudioVoice *voice,
+    FAudioBuffer *buffer,    /* Buffer to decode */
+    float *decodeCache,    /* Decode into here */
+    uint32_t samples    /* Samples to decode */
 );
 
 typedef void (FAUDIOCALL * FAudioResampleCallback)(
-	float *restrict dCache,
-	float *restrict resampleCache,
-	uint64_t *resampleOffset,
-	uint64_t resampleStep,
-	uint64_t toResample,
-	uint8_t channels
+    float *restrict dCache,
+    float *restrict resampleCache,
+    uint64_t *resampleOffset,
+    uint64_t resampleStep,
+    uint64_t toResample,
+    uint8_t channels
 );
 
 typedef void (FAUDIOCALL * FAudioMixCallback)(
-	uint32_t toMix,
-	uint32_t srcChans,
-	uint32_t dstChans,
-	float *restrict srcData,
-	float *restrict dstData,
-	float *restrict coefficients
+    uint32_t toMix,
+    uint32_t srcChans,
+    uint32_t dstChans,
+    float *restrict srcData,
+    float *restrict dstData,
+    float *restrict coefficients
 );
 
 typedef float FAudioFilterState[4];
@@ -283,238 +283,238 @@ void FAudio_OPERATIONSET_ClearAll(FAudio *audio);
 void FAudio_OPERATIONSET_ClearAllForVoice(FAudioVoice *voice);
 
 void FAudio_OPERATIONSET_QueueEnableEffect(
-	FAudioVoice *voice,
-	uint32_t EffectIndex,
-	uint32_t OperationSet
+    FAudioVoice *voice,
+    uint32_t EffectIndex,
+    uint32_t OperationSet
 );
 void FAudio_OPERATIONSET_QueueDisableEffect(
-	FAudioVoice *voice,
-	uint32_t EffectIndex,
-	uint32_t OperationSet
+    FAudioVoice *voice,
+    uint32_t EffectIndex,
+    uint32_t OperationSet
 );
 void FAudio_OPERATIONSET_QueueSetEffectParameters(
-	FAudioVoice *voice,
-	uint32_t EffectIndex,
-	const void *pParameters,
-	uint32_t ParametersByteSize,
-	uint32_t OperationSet
+    FAudioVoice *voice,
+    uint32_t EffectIndex,
+    const void *pParameters,
+    uint32_t ParametersByteSize,
+    uint32_t OperationSet
 );
 void FAudio_OPERATIONSET_QueueSetFilterParameters(
-	FAudioVoice *voice,
-	const FAudioFilterParametersEXT *pParameters,
-	uint32_t OperationSet
+    FAudioVoice *voice,
+    const FAudioFilterParametersEXT *pParameters,
+    uint32_t OperationSet
 );
 void FAudio_OPERATIONSET_QueueSetOutputFilterParameters(
-	FAudioVoice *voice,
-	FAudioVoice *pDestinationVoice,
-	const FAudioFilterParametersEXT *pParameters,
-	uint32_t OperationSet
+    FAudioVoice *voice,
+    FAudioVoice *pDestinationVoice,
+    const FAudioFilterParametersEXT *pParameters,
+    uint32_t OperationSet
 );
 void FAudio_OPERATIONSET_QueueSetVolume(
-	FAudioVoice *voice,
-	float Volume,
-	uint32_t OperationSet
+    FAudioVoice *voice,
+    float Volume,
+    uint32_t OperationSet
 );
 void FAudio_OPERATIONSET_QueueSetChannelVolumes(
-	FAudioVoice *voice,
-	uint32_t Channels,
-	const float *pVolumes,
-	uint32_t OperationSet
+    FAudioVoice *voice,
+    uint32_t Channels,
+    const float *pVolumes,
+    uint32_t OperationSet
 );
 void FAudio_OPERATIONSET_QueueSetOutputMatrix(
-	FAudioVoice *voice,
-	FAudioVoice *pDestinationVoice,
-	uint32_t SourceChannels,
-	uint32_t DestinationChannels,
-	const float *pLevelMatrix,
-	uint32_t OperationSet
+    FAudioVoice *voice,
+    FAudioVoice *pDestinationVoice,
+    uint32_t SourceChannels,
+    uint32_t DestinationChannels,
+    const float *pLevelMatrix,
+    uint32_t OperationSet
 );
 void FAudio_OPERATIONSET_QueueStart(
-	FAudioSourceVoice *voice,
-	uint32_t Flags,
-	uint32_t OperationSet
+    FAudioSourceVoice *voice,
+    uint32_t Flags,
+    uint32_t OperationSet
 );
 void FAudio_OPERATIONSET_QueueStop(
-	FAudioSourceVoice *voice,
-	uint32_t Flags,
-	uint32_t OperationSet
+    FAudioSourceVoice *voice,
+    uint32_t Flags,
+    uint32_t OperationSet
 );
 void FAudio_OPERATIONSET_QueueExitLoop(
-	FAudioSourceVoice *voice,
-	uint32_t OperationSet
+    FAudioSourceVoice *voice,
+    uint32_t OperationSet
 );
 void FAudio_OPERATIONSET_QueueSetFrequencyRatio(
-	FAudioSourceVoice *voice,
-	float Ratio,
-	uint32_t OperationSet
+    FAudioSourceVoice *voice,
+    float Ratio,
+    uint32_t OperationSet
 );
 
 /* Public FAudio Types */
 
 struct FAudio
 {
-	uint8_t active;
-	uint32_t refcount;
-	uint32_t initFlags;
-	uint32_t updateSize;
-	FAudioMasteringVoice *master;
-	LinkedList *sources;
-	LinkedList *submixes;
-	LinkedList *callbacks;
-	FAudioMutex sourceLock;
-	FAudioMutex submixLock;
-	FAudioMutex callbackLock;
-	FAudioMutex operationLock;
-	FAudioWaveFormatExtensible mixFormat;
+    uint8_t active;
+    uint32_t refcount;
+    uint32_t initFlags;
+    uint32_t updateSize;
+    FAudioMasteringVoice *master;
+    LinkedList *sources;
+    LinkedList *submixes;
+    LinkedList *callbacks;
+    FAudioMutex sourceLock;
+    FAudioMutex submixLock;
+    FAudioMutex callbackLock;
+    FAudioMutex operationLock;
+    FAudioWaveFormatExtensible mixFormat;
 
-	FAudio_OPERATIONSET_Operation *queuedOperations;
-	FAudio_OPERATIONSET_Operation *committedOperations;
+    FAudio_OPERATIONSET_Operation *queuedOperations;
+    FAudio_OPERATIONSET_Operation *committedOperations;
 
-	/* Used to prevent destroying an active voice */
-	FAudioSourceVoice *processingSource;
+    /* Used to prevent destroying an active voice */
+    FAudioSourceVoice *processingSource;
 
-	/* Temp storage for processing, interleaved PCM32F */
-	#define EXTRA_DECODE_PADDING 2
-	uint32_t decodeSamples;
-	uint32_t resampleSamples;
-	uint32_t effectChainSamples;
-	float *decodeCache;
-	float *resampleCache;
-	float *effectChainCache;
+    /* Temp storage for processing, interleaved PCM32F */
+    #define EXTRA_DECODE_PADDING 2
+    uint32_t decodeSamples;
+    uint32_t resampleSamples;
+    uint32_t effectChainSamples;
+    float *decodeCache;
+    float *resampleCache;
+    float *effectChainCache;
 
-	/* Allocator callbacks */
-	FAudioMallocFunc pMalloc;
-	FAudioFreeFunc pFree;
-	FAudioReallocFunc pRealloc;
+    /* Allocator callbacks */
+    FAudioMallocFunc pMalloc;
+    FAudioFreeFunc pFree;
+    FAudioReallocFunc pRealloc;
 
-	/* EngineProcedureEXT */
-	void *clientEngineUser;
-	FAudioEngineProcedureEXT pClientEngineProc;
+    /* EngineProcedureEXT */
+    void *clientEngineUser;
+    FAudioEngineProcedureEXT pClientEngineProc;
 
 #ifndef FAUDIO_DISABLE_DEBUGCONFIGURATION
-	/* Debug Information */
-	FAudioDebugConfiguration debug;
+    /* Debug Information */
+    FAudioDebugConfiguration debug;
 #endif /* FAUDIO_DISABLE_DEBUGCONFIGURATION */
 
-	/* Platform opaque pointer */
-	void *platform;
+    /* Platform opaque pointer */
+    void *platform;
 };
 
 struct FAudioVoice
 {
-	FAudio *audio;
-	uint32_t flags;
-	FAudioVoiceType type;
+    FAudio *audio;
+    uint32_t flags;
+    FAudioVoiceType type;
 
-	FAudioVoiceSends sends;
-	float **sendCoefficients;
-	float **mixCoefficients;
-	FAudioMixCallback *sendMix;
-	FAudioFilterParametersEXT *sendFilter;
-	FAudioFilterState **sendFilterState;
-	struct
-	{
-		FAPOBufferFlags state;
-		uint32_t count;
-		FAudioEffectDescriptor *desc;
-		void **parameters;
-		uint32_t *parameterSizes;
-		uint8_t *parameterUpdates;
-		uint8_t *inPlaceProcessing;
-	} effects;
-	FAudioFilterParametersEXT filter;
-	FAudioFilterState *filterState;
-	FAudioMutex sendLock;
-	FAudioMutex effectLock;
-	FAudioMutex filterLock;
+    FAudioVoiceSends sends;
+    float **sendCoefficients;
+    float **mixCoefficients;
+    FAudioMixCallback *sendMix;
+    FAudioFilterParametersEXT *sendFilter;
+    FAudioFilterState **sendFilterState;
+    struct
+    {
+        FAPOBufferFlags state;
+        uint32_t count;
+        FAudioEffectDescriptor *desc;
+        void **parameters;
+        uint32_t *parameterSizes;
+        uint8_t *parameterUpdates;
+        uint8_t *inPlaceProcessing;
+    } effects;
+    FAudioFilterParametersEXT filter;
+    FAudioFilterState *filterState;
+    FAudioMutex sendLock;
+    FAudioMutex effectLock;
+    FAudioMutex filterLock;
 
-	float volume;
-	float *channelVolume;
-	uint32_t outputChannels;
-	FAudioMutex volumeLock;
+    float volume;
+    float *channelVolume;
+    uint32_t outputChannels;
+    FAudioMutex volumeLock;
 
-	FAUDIONAMELESS union
-	{
-		struct
-		{
-			/* Sample storage */
-			uint32_t decodeSamples;
-			uint32_t resampleSamples;
+    FAUDIONAMELESS union
+    {
+        struct
+        {
+            /* Sample storage */
+            uint32_t decodeSamples;
+            uint32_t resampleSamples;
 
-			/* Resampler */
-			float resampleFreq;
-			uint64_t resampleStep;
-			uint64_t resampleOffset;
-			uint64_t curBufferOffsetDec;
-			uint32_t curBufferOffset;
+            /* Resampler */
+            float resampleFreq;
+            uint64_t resampleStep;
+            uint64_t resampleOffset;
+            uint64_t curBufferOffsetDec;
+            uint32_t curBufferOffset;
 
-			/* WMA decoding */
+            /* WMA decoding */
 #ifdef HAVE_WMADEC
-			struct FAudioWMADEC *wmadec;
+            struct FAudioWMADEC *wmadec;
 #endif /* HAVE_WMADEC*/
 
-			/* Read-only */
-			float maxFreqRatio;
-			FAudioWaveFormatEx *format;
-			FAudioDecodeCallback decode;
-			FAudioResampleCallback resample;
-			FAudioVoiceCallback *callback;
+            /* Read-only */
+            float maxFreqRatio;
+            FAudioWaveFormatEx *format;
+            FAudioDecodeCallback decode;
+            FAudioResampleCallback resample;
+            FAudioVoiceCallback *callback;
 
-			/* Dynamic */
-			uint8_t active;
-			float freqRatio;
-			uint8_t newBuffer;
-			uint64_t totalSamples;
-			FAudioBufferEntry *bufferList;
-			FAudioBufferEntry *flushList;
-			FAudioMutex bufferLock;
-		} src;
-		struct
-		{
-			/* Sample storage */
-			uint32_t inputSamples;
-			uint32_t outputSamples;
-			float *inputCache;
-			uint64_t resampleStep;
-			FAudioResampleCallback resample;
+            /* Dynamic */
+            uint8_t active;
+            float freqRatio;
+            uint8_t newBuffer;
+            uint64_t totalSamples;
+            FAudioBufferEntry *bufferList;
+            FAudioBufferEntry *flushList;
+            FAudioMutex bufferLock;
+        } src;
+        struct
+        {
+            /* Sample storage */
+            uint32_t inputSamples;
+            uint32_t outputSamples;
+            float *inputCache;
+            uint64_t resampleStep;
+            FAudioResampleCallback resample;
 
-			/* Read-only */
-			uint32_t inputChannels;
-			uint32_t inputSampleRate;
-			uint32_t processingStage;
-		} mix;
-		struct
-		{
-			/* Output stream, allocated by Platform */
-			float *output;
+            /* Read-only */
+            uint32_t inputChannels;
+            uint32_t inputSampleRate;
+            uint32_t processingStage;
+        } mix;
+        struct
+        {
+            /* Output stream, allocated by Platform */
+            float *output;
 
-			/* Needed when inputChannels != outputChannels */
-			float *effectCache;
+            /* Needed when inputChannels != outputChannels */
+            float *effectCache;
 
-			/* Read-only */
-			uint32_t inputChannels;
-			uint32_t inputSampleRate;
-		} master;
-	};
+            /* Read-only */
+            uint32_t inputChannels;
+            uint32_t inputSampleRate;
+        } master;
+    };
 };
 
 /* Internal Functions */
 void FAudio_INTERNAL_InsertSubmixSorted(
-	LinkedList **start,
-	FAudioSubmixVoice *toAdd,
-	FAudioMutex lock,
-	FAudioMallocFunc pMalloc
+    LinkedList **start,
+    FAudioSubmixVoice *toAdd,
+    FAudioMutex lock,
+    FAudioMallocFunc pMalloc
 );
 void FAudio_INTERNAL_UpdateEngine(FAudio *audio, float *output);
 void FAudio_INTERNAL_ResizeDecodeCache(FAudio *audio, uint32_t size);
 void FAudio_INTERNAL_AllocEffectChain(
-	FAudioVoice *voice,
-	const FAudioEffectChain *pEffectChain
+    FAudioVoice *voice,
+    const FAudioEffectChain *pEffectChain
 );
 void FAudio_INTERNAL_FreeEffectChain(FAudioVoice *voice);
 uint32_t FAudio_INTERNAL_VoiceOutputFrequency(
-	FAudioVoice *voice,
-	const FAudioVoiceSends *pSendList
+    FAudioVoice *voice,
+    const FAudioVoiceSends *pSendList
 );
 extern const float FAUDIO_INTERNAL_MATRIX_DEFAULTS[8][8][64];
 
@@ -545,44 +545,44 @@ extern const float FAUDIO_INTERNAL_MATRIX_DEFAULTS[8][8][64];
 #if defined(_MSC_VER)
 /* VC doesn't support __attribute__ at all, and there's no replacement for format. */
 void FAudio_INTERNAL_debug(
-	FAudio *audio,
-	const char *file,
-	uint32_t line,
-	const char *func,
-	const char *fmt,
-	...
+    FAudio *audio,
+    const char *file,
+    uint32_t line,
+    const char *func,
+    const char *fmt,
+    ...
 );
 #else
 void FAudio_INTERNAL_debug(
-	FAudio *audio,
-	const char *file,
-	uint32_t line,
-	const char *func,
-	const char *fmt,
-	...
+    FAudio *audio,
+    const char *file,
+    uint32_t line,
+    const char *func,
+    const char *fmt,
+    ...
 ) __attribute__((format(printf,5,6)));
 #endif
 
 void FAudio_INTERNAL_debug_fmt(
-	FAudio *audio,
-	const char *file,
-	uint32_t line,
-	const char *func,
-	const FAudioWaveFormatEx *fmt
+    FAudio *audio,
+    const char *file,
+    uint32_t line,
+    const char *func,
+    const FAudioWaveFormatEx *fmt
 );
 
 #define PRINT_DEBUG(engine, cond, type, fmt, ...) \
-	if (engine->debug.TraceMask & FAUDIO_LOG_##cond) \
-	{ \
-		FAudio_INTERNAL_debug( \
-			engine, \
-			__FILE__, \
-			__LINE__, \
-			__func__, \
-			type ": " fmt, \
-			__VA_ARGS__ \
-		); \
-	}
+    if (engine->debug.TraceMask & FAUDIO_LOG_##cond) \
+    { \
+        FAudio_INTERNAL_debug( \
+            engine, \
+            __FILE__, \
+            __LINE__, \
+            __func__, \
+            type ": " fmt, \
+            __VA_ARGS__ \
+        ); \
+    }
 
 #define LOG_ERROR(engine, fmt, ...) PRINT_DEBUG(engine, ERRORS, "ERROR", fmt, __VA_ARGS__)
 #define LOG_WARNING(engine, fmt, ...) PRINT_DEBUG(engine, WARNINGS, "WARNING", fmt, __VA_ARGS__)
@@ -601,31 +601,31 @@ void FAudio_INTERNAL_debug_fmt(
 /* TODO: LOG_STREAMING */
 
 #define LOG_FORMAT(engine, waveFormat) \
-	if (engine->debug.TraceMask & FAUDIO_LOG_INFO) \
-	{ \
-		FAudio_INTERNAL_debug_fmt( \
-			engine, \
-			__FILE__, \
-			__LINE__, \
-			__func__, \
-			waveFormat \
-		); \
-	}
+    if (engine->debug.TraceMask & FAUDIO_LOG_INFO) \
+    { \
+        FAudio_INTERNAL_debug_fmt( \
+            engine, \
+            __FILE__, \
+            __LINE__, \
+            __func__, \
+            waveFormat \
+        ); \
+    }
 
 #endif /* FAUDIO_DISABLE_DEBUGCONFIGURATION */
 
 /* FAPOFX Creators */
 
 #define CREATE_FAPOFX_FUNC(effect) \
-	extern uint32_t FAPOFXCreate##effect( \
-		FAPO **pEffect, \
-		const void *pInitData, \
-		uint32_t InitDataByteSize, \
-		FAudioMallocFunc customMalloc, \
-		FAudioFreeFunc customFree, \
-		FAudioReallocFunc customRealloc, \
-		uint8_t legacy \
-	);
+    extern uint32_t FAPOFXCreate##effect( \
+        FAPO **pEffect, \
+        const void *pInitData, \
+        uint32_t InitDataByteSize, \
+        FAudioMallocFunc customMalloc, \
+        FAudioFreeFunc customFree, \
+        FAudioReallocFunc customRealloc, \
+        uint8_t legacy \
+    );
 CREATE_FAPOFX_FUNC(EQ)
 CREATE_FAPOFX_FUNC(MasteringLimiter)
 CREATE_FAPOFX_FUNC(Reverb)
@@ -639,49 +639,49 @@ CREATE_FAPOFX_FUNC(Echo)
  */
 
 extern void (*FAudio_INTERNAL_Convert_U8_To_F32)(
-	const uint8_t *restrict src,
-	float *restrict dst,
-	uint32_t len
+    const uint8_t *restrict src,
+    float *restrict dst,
+    uint32_t len
 );
 extern void (*FAudio_INTERNAL_Convert_S16_To_F32)(
-	const int16_t *restrict src,
-	float *restrict dst,
-	uint32_t len
+    const int16_t *restrict src,
+    float *restrict dst,
+    uint32_t len
 );
 extern void (*FAudio_INTERNAL_Convert_S32_To_F32)(
-	const int32_t *restrict src,
-	float *restrict dst,
-	uint32_t len
+    const int32_t *restrict src,
+    float *restrict dst,
+    uint32_t len
 );
 
 extern FAudioResampleCallback FAudio_INTERNAL_ResampleMono;
 extern FAudioResampleCallback FAudio_INTERNAL_ResampleStereo;
 extern void FAudio_INTERNAL_ResampleGeneric(
-	float *restrict dCache,
-	float *restrict resampleCache,
-	uint64_t *resampleOffset,
-	uint64_t resampleStep,
-	uint64_t toResample,
-	uint8_t channels
+    float *restrict dCache,
+    float *restrict resampleCache,
+    uint64_t *resampleOffset,
+    uint64_t resampleStep,
+    uint64_t toResample,
+    uint8_t channels
 );
 
 extern void (*FAudio_INTERNAL_Amplify)(
-	float *output,
-	uint32_t totalSamples,
-	float volume
+    float *output,
+    uint32_t totalSamples,
+    float volume
 );
 
 extern FAudioMixCallback FAudio_INTERNAL_Mix_Generic;
 
 #define MIX_FUNC(type) \
-	extern void FAudio_INTERNAL_Mix_##type##_Scalar( \
-		uint32_t toMix, \
-		uint32_t srcChans, \
-		uint32_t dstChans, \
-		float *restrict srcData, \
-		float *restrict dstData, \
-		float *restrict coefficients \
-	);
+    extern void FAudio_INTERNAL_Mix_##type##_Scalar( \
+        uint32_t toMix, \
+        uint32_t srcChans, \
+        uint32_t dstChans, \
+        float *restrict srcData, \
+        float *restrict dstData, \
+        float *restrict coefficients \
+    );
 MIX_FUNC(Generic)
 MIX_FUNC(1in_1out)
 MIX_FUNC(1in_2out)
@@ -698,12 +698,12 @@ void FAudio_INTERNAL_InitSIMDFunctions(uint8_t hasSSE2, uint8_t hasNEON);
 /* Decoders */
 
 #define DECODE_FUNC(type) \
-	extern void FAudio_INTERNAL_Decode##type( \
-		FAudioVoice *voice, \
-		FAudioBuffer *buffer, \
-		float *decodeCache, \
-		uint32_t samples \
-	);
+    extern void FAudio_INTERNAL_Decode##type( \
+        FAudioVoice *voice, \
+        FAudioBuffer *buffer, \
+        float *decodeCache, \
+        uint32_t samples \
+    );
 DECODE_FUNC(PCM8)
 DECODE_FUNC(PCM16)
 DECODE_FUNC(PCM24)
@@ -727,27 +727,27 @@ void FAudio_WMADEC_end_buffer(FAudioSourceVoice *voice);
 void FAudio_PlatformAddRef(void);
 void FAudio_PlatformRelease(void);
 void FAudio_PlatformInit(
-	FAudio *audio,
-	uint32_t flags,
-	uint32_t deviceIndex,
-	FAudioWaveFormatExtensible *mixFormat,
-	uint32_t *updateSize,
-	void** platformDevice
+    FAudio *audio,
+    uint32_t flags,
+    uint32_t deviceIndex,
+    FAudioWaveFormatExtensible *mixFormat,
+    uint32_t *updateSize,
+    void** platformDevice
 );
 void FAudio_PlatformQuit(void* platformDevice);
 
 uint32_t FAudio_PlatformGetDeviceCount(void);
 uint32_t FAudio_PlatformGetDeviceDetails(
-	uint32_t index,
-	FAudioDeviceDetails *details
+    uint32_t index,
+    FAudioDeviceDetails *details
 );
 
 /* Threading */
 
 FAudioThread FAudio_PlatformCreateThread(
-	FAudioThreadFunc func,
-	const char *name,
-	void* data
+    FAudioThreadFunc func,
+    const char *name,
+    void* data
 );
 void FAudio_PlatformWaitThread(FAudioThread thread, int32_t *retval);
 void FAudio_PlatformThreadPriority(FAudioThreadPriority priority);
@@ -766,40 +766,40 @@ uint32_t FAudio_timems(void);
 
 static inline uint32_t GetMask(uint16_t channels)
 {
-	if (channels == 1) return SPEAKER_MONO;
-	if (channels == 2) return SPEAKER_STEREO;
-	if (channels == 3) return SPEAKER_2POINT1;
-	if (channels == 4) return SPEAKER_QUAD;
-	if (channels == 5) return SPEAKER_4POINT1;
-	if (channels == 6) return SPEAKER_5POINT1;
-	if (channels == 8) return SPEAKER_7POINT1;
-	FAudio_assert(0 && "Unrecognized speaker layout!");
-	return 0;
+    if (channels == 1) return SPEAKER_MONO;
+    if (channels == 2) return SPEAKER_STEREO;
+    if (channels == 3) return SPEAKER_2POINT1;
+    if (channels == 4) return SPEAKER_QUAD;
+    if (channels == 5) return SPEAKER_4POINT1;
+    if (channels == 6) return SPEAKER_5POINT1;
+    if (channels == 8) return SPEAKER_7POINT1;
+    FAudio_assert(0 && "Unrecognized speaker layout!");
+    return 0;
 }
 
 static inline void WriteWaveFormatExtensible(
-	FAudioWaveFormatExtensible *fmt,
-	int channels,
-	int samplerate,
-	const FAudioGUID *subformat
+    FAudioWaveFormatExtensible *fmt,
+    int channels,
+    int samplerate,
+    const FAudioGUID *subformat
 ) {
-	FAudio_assert(fmt != NULL);
-	fmt->Format.wBitsPerSample = 32;
-	fmt->Format.wFormatTag = FAUDIO_FORMAT_EXTENSIBLE;
-	fmt->Format.nChannels = channels;
-	fmt->Format.nSamplesPerSec = samplerate;
-	fmt->Format.nBlockAlign = (
-		fmt->Format.nChannels *
-		(fmt->Format.wBitsPerSample / 8)
-	);
-	fmt->Format.nAvgBytesPerSec = (
-		fmt->Format.nSamplesPerSec *
-		fmt->Format.nBlockAlign
-	);
-	fmt->Format.cbSize = sizeof(FAudioWaveFormatExtensible) - sizeof(FAudioWaveFormatEx);
-	fmt->Samples.wValidBitsPerSample = 32;
-	fmt->dwChannelMask = GetMask(fmt->Format.nChannels);
-	FAudio_memcpy(&fmt->SubFormat, subformat, sizeof(FAudioGUID));
+    FAudio_assert(fmt != NULL);
+    fmt->Format.wBitsPerSample = 32;
+    fmt->Format.wFormatTag = FAUDIO_FORMAT_EXTENSIBLE;
+    fmt->Format.nChannels = channels;
+    fmt->Format.nSamplesPerSec = samplerate;
+    fmt->Format.nBlockAlign = (
+        fmt->Format.nChannels *
+        (fmt->Format.wBitsPerSample / 8)
+    );
+    fmt->Format.nAvgBytesPerSec = (
+        fmt->Format.nSamplesPerSec *
+        fmt->Format.nBlockAlign
+    );
+    fmt->Format.cbSize = sizeof(FAudioWaveFormatExtensible) - sizeof(FAudioWaveFormatEx);
+    fmt->Samples.wValidBitsPerSample = 32;
+    fmt->dwChannelMask = GetMask(fmt->Format.nChannels);
+    FAudio_memcpy(&fmt->SubFormat, subformat, sizeof(FAudioGUID));
 }
 
 /* Resampling */
@@ -838,45 +838,45 @@ static inline void WriteWaveFormatExtensible(
  *   1 << 1
  * ... in other words, 1 / 2, or 0.5.
  */
-#define FIXED_PRECISION		32
-#define FIXED_ONE		(1LL << FIXED_PRECISION)
+#define FIXED_PRECISION        32
+#define FIXED_ONE        (1LL << FIXED_PRECISION)
 
 /* Quick way to drop parts */
-#define FIXED_FRACTION_MASK	(FIXED_ONE - 1)
-#define FIXED_INTEGER_MASK	~FIXED_FRACTION_MASK
+#define FIXED_FRACTION_MASK    (FIXED_ONE - 1)
+#define FIXED_INTEGER_MASK    ~FIXED_FRACTION_MASK
 
 /* Helper macros to convert fixed to float */
 #define DOUBLE_TO_FIXED(dbl) \
-	((uint64_t) (dbl * FIXED_ONE + 0.5))
+    ((uint64_t) (dbl * FIXED_ONE + 0.5))
 #define FIXED_TO_DOUBLE(fxd) ( \
-	(double) (fxd >> FIXED_PRECISION) + /* Integer part */ \
-	((fxd & FIXED_FRACTION_MASK) * (1.0 / FIXED_ONE)) /* Fraction part */ \
+    (double) (fxd >> FIXED_PRECISION) + /* Integer part */ \
+    ((fxd & FIXED_FRACTION_MASK) * (1.0 / FIXED_ONE)) /* Fraction part */ \
 )
 #define FIXED_TO_FLOAT(fxd) ( \
-	(float) (fxd >> FIXED_PRECISION) + /* Integer part */ \
-	((fxd & FIXED_FRACTION_MASK) * (1.0f / FIXED_ONE)) /* Fraction part */ \
+    (float) (fxd >> FIXED_PRECISION) + /* Integer part */ \
+    ((fxd & FIXED_FRACTION_MASK) * (1.0f / FIXED_ONE)) /* Fraction part */ \
 )
 
 #ifdef FAUDIO_DUMP_VOICES
 /* File writing structure */
 typedef size_t (FAUDIOCALL * FAudio_writefunc)(
-	void *data,
-	const void *src,
-	size_t size,
-	size_t count
+    void *data,
+    const void *src,
+    size_t size,
+    size_t count
 );
 typedef size_t (FAUDIOCALL * FAudio_sizefunc)(
-	void *data
+    void *data
 );
 typedef struct FAudioIOStreamOut
 {
-	void *data;
-	FAudio_readfunc read;
-	FAudio_writefunc write;
-	FAudio_seekfunc seek;
-	FAudio_sizefunc size;
-	FAudio_closefunc close;
-	void *lock;
+    void *data;
+    FAudio_readfunc read;
+    FAudio_writefunc write;
+    FAudio_seekfunc seek;
+    FAudio_sizefunc size;
+    FAudio_closefunc close;
+    void *lock;
 } FAudioIOStreamOut;
 
 FAudioIOStreamOut* FAudio_fopen_out(const char *path, const char *mode);

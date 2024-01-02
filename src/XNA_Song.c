@@ -105,246 +105,246 @@ static uint8_t *songCache;
 
 static void XNA_SongSubmitBuffer(FAudioVoiceCallback *callback, void *pBufferContext)
 {
-	FAudioBuffer buffer;
-	uint32_t decoded = 0;
+    FAudioBuffer buffer;
+    uint32_t decoded = 0;
 
-	if (activeVorbisSong != NULL)
-	{
-		decoded = stb_vorbis_get_samples_float_interleaved(
-			activeVorbisSong,
-			activeVorbisSongInfo.channels,
-			(float*) songCache,
-			activeVorbisSongInfo.sample_rate * activeVorbisSongInfo.channels
-		);
-		buffer.AudioBytes = decoded * activeVorbisSongInfo.channels * sizeof(float);
-		buffer.Flags = (decoded < activeVorbisSongInfo.sample_rate) ?
-			FAUDIO_END_OF_STREAM :
-			0;
-	}
-	else if (activeQoaSong != NULL)
-	{
-		/* TODO: decode multiple frames? */
-		decoded = qoa_decode_next_frame(
-			activeQoaSong,
-			(short*) songCache
-		);
-		buffer.AudioBytes = decoded * qoaChannels * sizeof(short);
-		buffer.Flags = (decoded < qoaSamplesPerChannelPerFrame) ?
-			FAUDIO_END_OF_STREAM :
-			0;
-	}
+    if (activeVorbisSong != NULL)
+    {
+        decoded = stb_vorbis_get_samples_float_interleaved(
+            activeVorbisSong,
+            activeVorbisSongInfo.channels,
+            (float*) songCache,
+            activeVorbisSongInfo.sample_rate * activeVorbisSongInfo.channels
+        );
+        buffer.AudioBytes = decoded * activeVorbisSongInfo.channels * sizeof(float);
+        buffer.Flags = (decoded < activeVorbisSongInfo.sample_rate) ?
+            FAUDIO_END_OF_STREAM :
+            0;
+    }
+    else if (activeQoaSong != NULL)
+    {
+        /* TODO: decode multiple frames? */
+        decoded = qoa_decode_next_frame(
+            activeQoaSong,
+            (short*) songCache
+        );
+        buffer.AudioBytes = decoded * qoaChannels * sizeof(short);
+        buffer.Flags = (decoded < qoaSamplesPerChannelPerFrame) ?
+            FAUDIO_END_OF_STREAM :
+            0;
+    }
 
-	if (decoded == 0)
-	{
-		return;
-	}
+    if (decoded == 0)
+    {
+        return;
+    }
 
-	buffer.pAudioData = songCache;
-	buffer.PlayBegin = 0;
-	buffer.PlayLength = decoded;
-	buffer.LoopBegin = 0;
-	buffer.LoopLength = 0;
-	buffer.LoopCount = 0;
-	buffer.pContext = NULL;
-	FAudioSourceVoice_SubmitSourceBuffer(
-		songVoice,
-		&buffer,
-		NULL
-	);
+    buffer.pAudioData = songCache;
+    buffer.PlayBegin = 0;
+    buffer.PlayLength = decoded;
+    buffer.LoopBegin = 0;
+    buffer.LoopLength = 0;
+    buffer.LoopCount = 0;
+    buffer.pContext = NULL;
+    FAudioSourceVoice_SubmitSourceBuffer(
+        songVoice,
+        &buffer,
+        NULL
+    );
 }
 
 static void XNA_SongKill()
 {
-	if (songVoice != NULL)
-	{
-		FAudioSourceVoice_Stop(songVoice, 0, 0);
-		FAudioVoice_DestroyVoice(songVoice);
-		songVoice = NULL;
-	}
-	if (songCache != NULL)
-	{
-		FAudio_free(songCache);
-		songCache = NULL;
-	}
-	if (activeVorbisSong != NULL)
-	{
-		stb_vorbis_close(activeVorbisSong);
-		activeVorbisSong = NULL;
-	}
-	if (activeQoaSong != NULL)
-	{
-		qoa_close(activeQoaSong);
-		activeQoaSong = NULL;
-	}
+    if (songVoice != NULL)
+    {
+        FAudioSourceVoice_Stop(songVoice, 0, 0);
+        FAudioVoice_DestroyVoice(songVoice);
+        songVoice = NULL;
+    }
+    if (songCache != NULL)
+    {
+        FAudio_free(songCache);
+        songCache = NULL;
+    }
+    if (activeVorbisSong != NULL)
+    {
+        stb_vorbis_close(activeVorbisSong);
+        activeVorbisSong = NULL;
+    }
+    if (activeQoaSong != NULL)
+    {
+        qoa_close(activeQoaSong);
+        activeQoaSong = NULL;
+    }
 }
 
 /* "Public" API */
 
 FAUDIOAPI void XNA_SongInit()
 {
-	FAudioCreate(&songAudio, 0, FAUDIO_DEFAULT_PROCESSOR);
-	FAudio_CreateMasteringVoice(
-		songAudio,
-		&songMaster,
-		FAUDIO_DEFAULT_CHANNELS,
-		FAUDIO_DEFAULT_SAMPLERATE,
-		0,
-		0,
-		NULL
-	);
+    FAudioCreate(&songAudio, 0, FAUDIO_DEFAULT_PROCESSOR);
+    FAudio_CreateMasteringVoice(
+        songAudio,
+        &songMaster,
+        FAUDIO_DEFAULT_CHANNELS,
+        FAUDIO_DEFAULT_SAMPLERATE,
+        0,
+        0,
+        NULL
+    );
 }
 
 FAUDIOAPI void XNA_SongQuit()
 {
-	XNA_SongKill();
-	FAudioVoice_DestroyVoice(songMaster);
-	FAudio_Release(songAudio);
+    XNA_SongKill();
+    FAudioVoice_DestroyVoice(songMaster);
+    FAudio_Release(songAudio);
 }
 
 FAUDIOAPI float XNA_PlaySong(const char *name)
 {
-	FAudioWaveFormatEx format;
-	XNA_SongKill();
+    FAudioWaveFormatEx format;
+    XNA_SongKill();
 
-	activeVorbisSong = stb_vorbis_open_filename(name, NULL, NULL);
+    activeVorbisSong = stb_vorbis_open_filename(name, NULL, NULL);
 
-	if (activeVorbisSong != NULL)
-	{
-		activeVorbisSongInfo = stb_vorbis_get_info(activeVorbisSong);
-		format.wFormatTag = FAUDIO_FORMAT_IEEE_FLOAT;
-		format.nChannels = activeVorbisSongInfo.channels;
-		format.nSamplesPerSec = activeVorbisSongInfo.sample_rate;
-		format.wBitsPerSample = sizeof(float) * 8;
-		format.nBlockAlign = format.nChannels * format.wBitsPerSample / 8;
-		format.nAvgBytesPerSec = format.nSamplesPerSec * format.nBlockAlign;
-		format.cbSize = 0;
-	}
-	else /* It's not vorbis, try qoa!*/
-	{
-		activeQoaSong = qoa_open_from_filename(name);
+    if (activeVorbisSong != NULL)
+    {
+        activeVorbisSongInfo = stb_vorbis_get_info(activeVorbisSong);
+        format.wFormatTag = FAUDIO_FORMAT_IEEE_FLOAT;
+        format.nChannels = activeVorbisSongInfo.channels;
+        format.nSamplesPerSec = activeVorbisSongInfo.sample_rate;
+        format.wBitsPerSample = sizeof(float) * 8;
+        format.nBlockAlign = format.nChannels * format.wBitsPerSample / 8;
+        format.nAvgBytesPerSec = format.nSamplesPerSec * format.nBlockAlign;
+        format.cbSize = 0;
+    }
+    else /* It's not vorbis, try qoa!*/
+    {
+        activeQoaSong = qoa_open_from_filename(name);
 
-		if (activeQoaSong == NULL)
-		{
-			/* It's neither vorbis nor qoa, time to bail */
-			return 0;
-		}
+        if (activeQoaSong == NULL)
+        {
+            /* It's neither vorbis nor qoa, time to bail */
+            return 0;
+        }
 
-		qoa_attributes(activeQoaSong, &qoaChannels, &qoaSampleRate, &qoaSamplesPerChannelPerFrame, &qoaTotalSamplesPerChannel);
+        qoa_attributes(activeQoaSong, &qoaChannels, &qoaSampleRate, &qoaSamplesPerChannelPerFrame, &qoaTotalSamplesPerChannel);
 
-		format.wFormatTag = FAUDIO_FORMAT_PCM;
-		format.nChannels = qoaChannels;
-		format.nSamplesPerSec = qoaSampleRate;
-		format.wBitsPerSample = 16;
-		format.nBlockAlign = format.nChannels * format.wBitsPerSample / 8;
-		format.nAvgBytesPerSec = format.nSamplesPerSec * format.nBlockAlign;
-		format.cbSize = 0;
-	}
+        format.wFormatTag = FAUDIO_FORMAT_PCM;
+        format.nChannels = qoaChannels;
+        format.nSamplesPerSec = qoaSampleRate;
+        format.wBitsPerSample = 16;
+        format.nBlockAlign = format.nChannels * format.wBitsPerSample / 8;
+        format.nAvgBytesPerSec = format.nSamplesPerSec * format.nBlockAlign;
+        format.cbSize = 0;
+    }
 
-	/* Allocate decode cache */
-	songCache = (uint8_t*) FAudio_malloc(format.nAvgBytesPerSec);
+    /* Allocate decode cache */
+    songCache = (uint8_t*) FAudio_malloc(format.nAvgBytesPerSec);
 
-	/* Init voice */
-	FAudio_zero(&callbacks, sizeof(FAudioVoiceCallback));
-	callbacks.OnBufferEnd = XNA_SongSubmitBuffer;
-	FAudio_CreateSourceVoice(
-		songAudio,
-		&songVoice,
-		&format,
-		0,
-		1.0f, /* No pitch shifting here! */
-		&callbacks,
-		NULL,
-		NULL
-	);
-	FAudioVoice_SetVolume(songVoice, songVolume, 0);
+    /* Init voice */
+    FAudio_zero(&callbacks, sizeof(FAudioVoiceCallback));
+    callbacks.OnBufferEnd = XNA_SongSubmitBuffer;
+    FAudio_CreateSourceVoice(
+        songAudio,
+        &songVoice,
+        &format,
+        0,
+        1.0f, /* No pitch shifting here! */
+        &callbacks,
+        NULL,
+        NULL
+    );
+    FAudioVoice_SetVolume(songVoice, songVolume, 0);
 
-	/* Okay, this song is decoding now */
-	if (activeVorbisSong != NULL)
-	{
-		stb_vorbis_seek_start(activeVorbisSong);
-	}
-	else if (activeQoaSong != NULL)
-	{
-		qoa_seek_frame(activeQoaSong, 0);
-	}
+    /* Okay, this song is decoding now */
+    if (activeVorbisSong != NULL)
+    {
+        stb_vorbis_seek_start(activeVorbisSong);
+    }
+    else if (activeQoaSong != NULL)
+    {
+        qoa_seek_frame(activeQoaSong, 0);
+    }
 
-	XNA_SongSubmitBuffer(NULL, NULL);
+    XNA_SongSubmitBuffer(NULL, NULL);
 
-	/* Finally. */
-	FAudioSourceVoice_Start(songVoice, 0, 0);
+    /* Finally. */
+    FAudioSourceVoice_Start(songVoice, 0, 0);
 
-	if (activeVorbisSong != NULL)
-	{
-		return stb_vorbis_stream_length_in_seconds(activeVorbisSong);
-	}
-	else if (activeQoaSong != NULL)
-	{
-		return qoaTotalSamplesPerChannel / (float) qoaSampleRate;
-	}
+    if (activeVorbisSong != NULL)
+    {
+        return stb_vorbis_stream_length_in_seconds(activeVorbisSong);
+    }
+    else if (activeQoaSong != NULL)
+    {
+        return qoaTotalSamplesPerChannel / (float) qoaSampleRate;
+    }
 
-	return 0;
+    return 0;
 }
 
 FAUDIOAPI void XNA_PauseSong()
 {
-	if (songVoice == NULL)
-	{
-		return;
-	}
-	FAudioSourceVoice_Stop(songVoice, 0, 0);
+    if (songVoice == NULL)
+    {
+        return;
+    }
+    FAudioSourceVoice_Stop(songVoice, 0, 0);
 }
 
 FAUDIOAPI void XNA_ResumeSong()
 {
-	if (songVoice == NULL)
-	{
-		return;
-	}
-	FAudioSourceVoice_Start(songVoice, 0, 0);
+    if (songVoice == NULL)
+    {
+        return;
+    }
+    FAudioSourceVoice_Start(songVoice, 0, 0);
 }
 
 FAUDIOAPI void XNA_StopSong()
 {
-	XNA_SongKill();
+    XNA_SongKill();
 }
 
 FAUDIOAPI void XNA_SetSongVolume(float volume)
 {
-	songVolume = volume;
-	if (songVoice != NULL)
-	{
-		FAudioVoice_SetVolume(songVoice, songVolume, 0);
-	}
+    songVolume = volume;
+    if (songVoice != NULL)
+    {
+        FAudioVoice_SetVolume(songVoice, songVolume, 0);
+    }
 }
 
 FAUDIOAPI uint32_t XNA_GetSongEnded()
 {
-	FAudioVoiceState state;
-	if (songVoice == NULL || (activeVorbisSong == NULL && activeQoaSong == NULL))
-	{
-		return 1;
-	}
-	FAudioSourceVoice_GetState(songVoice, &state, 0);
-	return state.BuffersQueued == 0;
+    FAudioVoiceState state;
+    if (songVoice == NULL || (activeVorbisSong == NULL && activeQoaSong == NULL))
+    {
+        return 1;
+    }
+    FAudioSourceVoice_GetState(songVoice, &state, 0);
+    return state.BuffersQueued == 0;
 }
 
 FAUDIOAPI void XNA_EnableVisualization(uint32_t enable)
 {
-	/* TODO: Enable/Disable FAPO effect */
+    /* TODO: Enable/Disable FAPO effect */
 }
 
 FAUDIOAPI uint32_t XNA_VisualizationEnabled()
 {
-	/* TODO: Query FAPO effect enabled */
-	return 0;
+    /* TODO: Query FAPO effect enabled */
+    return 0;
 }
 
 FAUDIOAPI void XNA_GetSongVisualizationData(
-	float *frequencies,
-	float *samples,
-	uint32_t count
+    float *frequencies,
+    float *samples,
+    uint32_t count
 ) {
-	/* TODO: Visualization FAPO that reads in Song samples, FFT analysis */
+    /* TODO: Visualization FAPO that reads in Song samples, FFT analysis */
 }
 
 #endif /* DISABLE_XNASONG */
