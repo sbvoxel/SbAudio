@@ -31,3 +31,10 @@ Low-level (wrap the drivers / platform APIs):
     PortAudio
     RtAudio
     SDL
+
+Platform APIs
+    Linux
+        PulseAudio
+        PipeWire
+    Windows
+        WASAPI
