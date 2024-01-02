@@ -40,7 +40,7 @@ jobs:
         submodules: true
 
     - name: Cache SDL
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       env:
         cache-name: cache-sdl
       with:
