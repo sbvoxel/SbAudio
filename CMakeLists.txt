@@ -89,10 +89,7 @@ if(PLATFORM_WIN32)
     target_link_libraries(SbAudio PRIVATE -ldxguid -luuid -lwinmm -lole32 -ladvapi32 -luser32 -lmfplat -lmfreadwrite -lmfuuid -lpropsys)
     target_compile_definitions(SbAudio PUBLIC FAUDIO_WIN32_PLATFORM)
     target_compile_definitions(SbAudio PRIVATE HAVE_WMADEC=1)
-    set(PLATFORM_CFLAGS "-DFAUDIO_WIN32_PLATFORM")
     set(XNASONG OFF)
-else()
-    set(PLATFORM_CFLAGS)
 endif()
 
 # Only disable DebugConfiguration in release builds
