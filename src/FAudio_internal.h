@@ -188,28 +188,6 @@ extern void FAudio_Log(char const *msg);
 #define FAudio_clamp(val, min, max) \
 	(val > max ? max : (val < min ? min : val))
 
-/* Windows/Visual Studio cruft */
-#ifdef _WIN32
-	#ifdef __cplusplus
-		/* C++ should have `inline`, but not `restrict` */
-		#define restrict
-	#else
-		#define inline __inline
-		#if defined(_MSC_VER)
-			#if (_MSC_VER >= 1700) /* VS2012+ */
-				#define restrict __restrict
-			#else /* VS2010- */
-				#define restrict
-			#endif
-		#endif
-	#endif
-#endif
-
-/* C++ does not have restrict (though VS2012+ does have __restrict) */
-#if defined(__cplusplus) && !defined(restrict)
-#define restrict
-#endif
-
 /* Threading Types */
 
 typedef void* FAudioThread;
