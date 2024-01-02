@@ -30,13 +30,7 @@
 /* #define DISABLE_SUBNORMALS */
 #ifdef DISABLE_SUBNORMALS
 #include <math.h> /* ONLY USE THIS FOR fpclassify/_fpclass! */
-
-/* VS2010 doesn't define fpclassify (which is C99), so here it is. */
-#if defined(_MSC_VER) && !defined(fpclassify)
-#define IS_SUBNORMAL(a) (_fpclass(a) & (_FPCLASS_ND | _FPCLASS_PD))
-#else
 #define IS_SUBNORMAL(a) (fpclassify(a) == FP_SUBNORMAL)
-#endif
 #endif /* DISABLE_SUBNORMALS */
 
 /* Utility Functions */
