@@ -168,7 +168,7 @@ if(BUILD_UTILS)
         utils/uicommon/imstb_textedit.h
         utils/uicommon/imstb_truetype.h
     )
-target_link_libraries(uicommon PUBLIC SbAudio)
+    target_link_libraries(uicommon PUBLIC SbAudio)
 
     # Shared WAV Resources
     add_library(wavs STATIC utils/wavcommon/wavs.cpp)
