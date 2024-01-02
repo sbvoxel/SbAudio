@@ -1,8 +1,9 @@
 # CMake Project for SbAudio
-# Written by @NeroBurner
-# TODO: What to do about above comment now that this file will be changing?
 cmake_minimum_required(VERSION 3.20.0)
 project(SbAudio C)
+
+# TODO: Should this be committed? What do projects do?
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Options
 option(BUILD_UTILS "Build utils/ folder" OFF)
