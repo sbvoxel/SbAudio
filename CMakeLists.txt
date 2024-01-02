@@ -102,10 +102,10 @@ endif()
 add_library(SbBackend STATIC ${SOUNDIO_SOURCES})
 
 if(SOUNDIO_HAVE_PULSEAUDIO)
-    target_compile_definitions(SbBackend PRIVATE SOUNDIO_HAVE_PULSEAUDIO=1)
+    target_compile_definitions(SbBackend PRIVATE SOUNDIO_HAVE_PULSEAUDIO)
 endif()
 if(SOUNDIO_HAVE_WASAPI)
-    target_compile_definitions(SbBackend PRIVATE SOUNDIO_HAVE_WASAPI=1)
+    target_compile_definitions(SbBackend PRIVATE SOUNDIO_HAVE_WASAPI)
 endif()
 
 # Source lists
