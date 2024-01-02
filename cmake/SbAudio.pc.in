@@ -4,8 +4,8 @@ libdir=@FAUDIO_PKGCONF_LIBDIR@
 includedir=@FAUDIO_PKGCONF_INCLUDEDIR@
 
 Name: @PROJECT_NAME@
-URL: https://github.com/FNA-XNA/FAudio
-Description: Accuracy-focused XAudio reimplementation for open platforms
+URL: https://github.com/sbvoxel/SbAudio
+Description: An FAudio fork
 Version: @LIB_VERSION@
 
 Libs: -L${libdir} -l@PROJECT_NAME@
