@@ -16,7 +16,7 @@ option(FORCE_ENABLE_DEBUGCONFIGURATION "Enable DebugConfiguration in all build t
 option(DUMP_VOICES "Dump voices to RIFF WAVE files" OFF)
 option(BUILD_SHARED_LIBS "Build shared library" ON)
 
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_EXTENSIONS OFF)
 
 # Version
