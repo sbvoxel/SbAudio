@@ -225,14 +225,14 @@ endif()
 # on mingw-w64 cross compilation $CMAKE_INSTALL_LIBDIR is set to an absolute
 # path. Work around that by hard coding the directories on windows
 if(WIN32)
-    set(FAudio_INSTALL_INCLUDEDIR include)
-    set(FAudio_INSTALL_BINDIR bin)
-    set(FAudio_INSTALL_LIBDIR lib)
+    set(SbAudio_INSTALL_INCLUDEDIR include)
+    set(SbAudio_INSTALL_BINDIR bin)
+    set(SbAudio_INSTALL_LIBDIR lib)
 else()
     include(GNUInstallDirs)
-    set(FAudio_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR})
-    set(FAudio_INSTALL_BINDIR ${CMAKE_INSTALL_BINDIR})
-    set(FAudio_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR})
+    set(SbAudio_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR})
+    set(SbAudio_INSTALL_BINDIR ${CMAKE_INSTALL_BINDIR})
+    set(SbAudio_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR})
 endif()
 
 # tests/ Folder
@@ -247,16 +247,16 @@ endif()
 # Public Headers...
 install(
     DIRECTORY include/
-    DESTINATION ${FAudio_INSTALL_INCLUDEDIR}
+    DESTINATION ${SbAudio_INSTALL_INCLUDEDIR}
 )
 # Libraries...
 install(
     TARGETS ${PROJECT_NAME}
     EXPORT ${PROJECT_NAME}-targets
-    INCLUDES DESTINATION ${FAudio_INSTALL_INCLUDEDIR}
-    RUNTIME DESTINATION ${FAudio_INSTALL_BINDIR}
-    LIBRARY DESTINATION ${FAudio_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION ${FAudio_INSTALL_LIBDIR}
+    INCLUDES DESTINATION ${SbAudio_INSTALL_INCLUDEDIR}
+    RUNTIME DESTINATION ${SbAudio_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${SbAudio_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${SbAudio_INSTALL_LIBDIR}
 )
 
 # Generate a pkgconfig file
@@ -270,7 +270,7 @@ configure_file(
 )
 install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/generated/${PROJECT_NAME}.pc
-    DESTINATION ${FAudio_INSTALL_LIBDIR}/pkgconfig
+    DESTINATION ${SbAudio_INSTALL_LIBDIR}/pkgconfig
 )
 
 # Generate cmake-config file, install CMake files
@@ -278,14 +278,14 @@ include(CMakePackageConfigHelpers)
 configure_package_config_file(
     cmake/config.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/generated/${PROJECT_NAME}Config.cmake
-    INSTALL_DESTINATION ${FAudio_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    INSTALL_DESTINATION ${SbAudio_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/generated/${PROJECT_NAME}Config.cmake
-    DESTINATION ${FAudio_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    DESTINATION ${SbAudio_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 install(
     EXPORT ${PROJECT_NAME}-targets
     NAMESPACE ${PROJECT_NAME}::
-    DESTINATION ${FAudio_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    DESTINATION ${SbAudio_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
