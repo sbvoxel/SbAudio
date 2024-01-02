@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <SDL.h>
 
-#include <FAudio.h>
+#include <sbAudio.h>
 
 #include <iostream>
 #include <iomanip>

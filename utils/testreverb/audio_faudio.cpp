@@ -1,7 +1,7 @@
 #include "audio.h"
 
-#include <FAudio.h>
-#include <FAudioFX.h>
+#include <sbAudio.h>
+#include <sbAudioFX.h>
 #include <SDL.h>
 
 struct AudioContext 

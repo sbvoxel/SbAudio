@@ -1,5 +1,5 @@
 #include <SDL.h>
-#include <FAudio.h>
+#include <sbAudio.h>
 #include "../uicommon/imgui.h"
 #include "../wavcommon/wavs.h"
 #include <vector>

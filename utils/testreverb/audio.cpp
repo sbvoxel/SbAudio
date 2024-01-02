@@ -1,6 +1,6 @@
 #include "audio.h"
 
-#include <FAudioFX.h>
+#include <sbAudioFX.h>
 
 const char *audio_voice_type_names[3] = 
 {
