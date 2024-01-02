@@ -26,6 +26,10 @@
 
 /* This is where the actual tool lives! Try to do your work in here! */
 
+// Remove mentions of 'restrict' as we're including this project internal C header
+// into a C++ file.
+#define restrict
+
 #include <FACT_internal.h> /* DO NOT INCLUDE THIS IN REAL CODE! */
 
 #include "../uicommon/imgui.h"
