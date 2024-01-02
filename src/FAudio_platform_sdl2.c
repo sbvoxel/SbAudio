@@ -52,70 +52,8 @@ static void FAudio_INTERNAL_MixCallback(void *userdata, Uint8 *stream, int len)
 
 /* Platform Functions */
 
-static void FAudio_INTERNAL_PrioritizeDirectSound()
-{
-	int numdrivers, i, wasapi, directsound;
-	void *dll, *proc;
-
-	if (SDL_GetHint("SDL_AUDIODRIVER") != NULL)
-	{
-		/* Already forced to something, ignore */
-		return;
-	}
-
-	/* Windows 10+ decided to break version detection, so instead of doing
-	 * it the right way we have to do something dumb like search for an
-	 * export that's only in Windows 10 or newer.
-	 * -flibit
-	 */
-	if (SDL_strcmp(SDL_GetPlatform(), "Windows") != 0)
-	{
-		return;
-	}
-	dll = SDL_LoadObject("USER32.DLL");
-	if (dll == NULL)
-	{
-		return;
-	}
-	proc = SDL_LoadFunction(dll, "SetProcessDpiAwarenessContext");
-	SDL_UnloadObject(dll); /* We aren't really using this, unload now */
-	if (proc != NULL)
-	{
-		/* OS is new enough to trust WASAPI, bail */
-		return;
-	}
-
-	/* Check to see if we have both Windows drivers in the list */
-	numdrivers = SDL_GetNumAudioDrivers();
-	wasapi = -1;
-	directsound = -1;
-	for (i = 0; i < numdrivers; i += 1)
-	{
-		const char *driver = SDL_GetAudioDriver(i);
-		if (SDL_strcmp(driver, "wasapi") == 0)
-		{
-			wasapi = i;
-		}
-		else if (SDL_strcmp(driver, "directsound") == 0)
-		{
-			directsound = i;
-		}
-	}
-
-	/* We force if and only if both drivers exist and wasapi is earlier */
-	if ((wasapi > -1) && (directsound > -1))
-	{
-		if (wasapi < directsound)
-		{
-			SDL_SetHint("SDL_AUDIODRIVER", "directsound");
-		}
-	}
-}
-
 void FAudio_PlatformAddRef()
 {
-	FAudio_INTERNAL_PrioritizeDirectSound();
-
 	/* SDL tracks ref counts for each subsystem */
 	if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
 	{
