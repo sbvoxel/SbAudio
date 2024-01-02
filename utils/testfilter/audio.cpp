@@ -16,18 +16,18 @@ extern AudioContext *faudio_create_context();
 
 AudioContext *audio_create_context(AudioEngine p_engine)
 {
-	switch (p_engine)
-	{
-		#ifdef HAVE_XAUDIO2
-		case AudioEngine_XAudio2:
-			return xaudio_create_context();
-		#endif
+    switch (p_engine)
+    {
+        #ifdef HAVE_XAUDIO2
+        case AudioEngine_XAudio2:
+            return xaudio_create_context();
+        #endif
 
-		case AudioEngine_FAudio:
-			return faudio_create_context();
-		
-		default:
-			return NULL;
-	}
+        case AudioEngine_FAudio:
+            return faudio_create_context();
+        
+        default:
+            return NULL;
+    }
 
 }

@@ -13,8 +13,8 @@ typedef struct AudioContext AudioContext;
 
 typedef enum
 {
-	AudioEngine_XAudio2,
-	AudioEngine_FAudio
+    AudioEngine_XAudio2,
+    AudioEngine_FAudio
 } AudioEngine;
 
 typedef void (*PFN_AUDIO_DESTROY_CONTEXT)(AudioContext *p_context);

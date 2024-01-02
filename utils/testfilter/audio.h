@@ -15,8 +15,8 @@ struct AudioVoice;
 struct AudioFilter;
 
 enum AudioEngine {
-	AudioEngine_XAudio2,
-	AudioEngine_FAudio
+    AudioEngine_XAudio2,
+    AudioEngine_FAudio
 };
 
 typedef void(*PFN_AUDIO_DESTROY_CONTEXT)(AudioContext *p_context);
