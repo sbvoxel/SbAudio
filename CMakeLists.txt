@@ -55,7 +55,7 @@ if(APPLE)
     set(CMAKE_MACOSX_RPATH ON)
     set(CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
 elseif(WIN32)
-    # "FAudio.dll", not "libFAudio.dll"
+    # "SbAudio.dll", not "libSbAudio.dll"
     set(CMAKE_SHARED_LIBRARY_PREFIX "")
 endif()
 
@@ -136,7 +136,7 @@ if(MINGW)
 endif()
 
 # Soname
-set_target_properties(SbAudio PROPERTIES OUTPUT_NAME "FAudio"
+set_target_properties(SbAudio PROPERTIES OUTPUT_NAME "SbAudio"
     VERSION ${LIB_VERSION}
     SOVERSION ${LIB_MAJOR_VERSION}
 )
