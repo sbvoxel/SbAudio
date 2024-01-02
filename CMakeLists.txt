@@ -111,7 +111,7 @@ target_include_directories(SbAudio PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-# Soname
+# Shared object name (soname)
 set_target_properties(SbAudio PROPERTIES OUTPUT_NAME "SbAudio"
     VERSION ${LIB_VERSION}
     SOVERSION ${LIB_MAJOR_VERSION}
