@@ -24,8 +24,8 @@
  *
  */
 
-#include "FAudio.h"
-#include "FAPOBase.h"
+#include "sbAudio.h"
+#include "sbAPOBase.h"
 #include <stdarg.h>
 
 #ifdef FAUDIO_WIN32_PLATFORM

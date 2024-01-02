@@ -34,7 +34,7 @@
 #ifndef FAUDIOFX_H
 #define FAUDIOFX_H
 
-#include "FAudio.h"
+#include "sbAudio.h"
 
 #ifdef __cplusplus
 extern "C" {

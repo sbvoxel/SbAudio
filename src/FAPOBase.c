@@ -24,7 +24,7 @@
  *
  */
 
-#include "FAPOBase.h"
+#include "sbAPOBase.h"
 #include "FAudio_internal.h"
 
 /* FAPOBase Interface */

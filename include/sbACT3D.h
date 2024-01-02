@@ -31,8 +31,8 @@
 #ifndef FACT3D_H
 #define FACT3D_H
 
-#include "F3DAudio.h"
-#include "FACT.h"
+#include "sb3DAudio.h"
+#include "sbACT.h"
 
 #ifdef __cplusplus
 extern "C" {

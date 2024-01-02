@@ -67,7 +67,7 @@
 #ifndef FAPOBASE_H
 #define FAPOBASE_H
 
-#include "FAPO.h"
+#include "sbAPO.h"
 
 #ifdef __cplusplus
 extern "C" {

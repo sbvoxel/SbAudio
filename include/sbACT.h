@@ -31,7 +31,7 @@
 #ifndef FACT_H
 #define FACT_H
 
-#include "FAudio.h"
+#include "sbAudio.h"
 
 #define FACTAPI FAUDIOAPI
 #ifdef _WIN32

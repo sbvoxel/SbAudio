@@ -24,7 +24,7 @@
  *
  */
 
-#include "FAudioFX.h"
+#include "sbAudioFX.h"
 #include "FACT_internal.h"
 
 /* AudioEngine implementation */

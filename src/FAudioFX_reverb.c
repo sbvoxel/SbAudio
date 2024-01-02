@@ -24,7 +24,7 @@
  *
  */
 
-#include "FAudioFX.h"
+#include "sbAudioFX.h"
 #include "FAudio_internal.h"
 
 /* #define DISABLE_SUBNORMALS */

@@ -24,7 +24,7 @@
  *
  */
 
-#include "FACT3D.h"
+#include "sbACT3D.h"
 
 uint32_t FACT3DInitialize(
 	FACTAudioEngine *pEngine,

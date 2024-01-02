@@ -25,7 +25,7 @@
  */
 
 #include "FACT_internal.h"
-#include "FAudioFX.h"
+#include "sbAudioFX.h"
 
 /* RNG */
 

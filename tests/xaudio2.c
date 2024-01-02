@@ -36,9 +36,9 @@
 #include "xapofx.h"
 #else
 /* native build against FAudio */
-#include "FAudio.h"
-#include "FAudioFX.h"
-#include "FAPO.h"
+#include "sbAudio.h"
+#include "sbAudioFX.h"
+#include "sbAPO.h"
 
 #include "FAudio_compat.h"
 

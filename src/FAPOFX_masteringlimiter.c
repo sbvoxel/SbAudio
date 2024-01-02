@@ -24,7 +24,7 @@
  *
  */
 
-#include "FAPOFX.h"
+#include "sbAPOFX.h"
 #include "FAudio_internal.h"
 
 /* FXMasteringLimiter FAPO Implementation */

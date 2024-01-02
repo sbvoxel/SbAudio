@@ -24,8 +24,8 @@
  *
  */
 
-#include "FACT.h"
-#include "FACT3D.h"
+#include "sbACT.h"
+#include "sbACT3D.h"
 #include "FAudio_internal.h"
 
 /* Internal AudioEngine Types */
