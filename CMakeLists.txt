@@ -2,10 +2,21 @@
 cmake_minimum_required(VERSION 3.20.0)
 project(SbAudio C)
 
+# Version
+SET(LIB_MAJOR_VERSION "0")
+SET(LIB_MINOR_VERSION "1")
+SET(LIB_REVISION "00")
+SET(LIB_VERSION "${LIB_MAJOR_VERSION}.${LIB_MINOR_VERSION}.${LIB_REVISION}")
+
+set(CMAKE_C_STANDARD 23)
+set(CMAKE_C_EXTENSIONS OFF)
+
 # TODO: Should this be committed? What do projects do?
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Options
+option(ENABLE_PULSEAUDIO "Enable PulseAudio backend" ON)
+option(ENABLE_WASAPI "Enable WASAPI backend" ON)
+
 option(BUILD_UTILS "Build utils/ folder" OFF)
 if(WIN32)
 option(PLATFORM_WIN32 "Enable native Win32 platform instead of SDL2" OFF)
@@ -16,14 +27,56 @@ option(FORCE_ENABLE_DEBUGCONFIGURATION "Enable DebugConfiguration in all build t
 option(DUMP_VOICES "Dump voices to RIFF WAVE files" OFF)
 option(BUILD_SHARED_LIBS "Build shared library" ON)
 
-set(CMAKE_C_STANDARD 23)
-set(CMAKE_C_EXTENSIONS OFF)
+if(ENABLE_PULSEAUDIO)
+    find_package(PulseAudio)
+    if(PULSEAUDIO_FOUND)
+        set(STATUS_PULSEAUDIO "OK")
+        set(SOUNDIO_HAVE_PULSEAUDIO true)
+        include_directories(${PULSEAUDIO_INCLUDE_DIR})
+    else()
+        set(STATUS_PULSEAUDIO "not found")
+        set(SOUNDIO_HAVE_PULSEAUDIO false)
+        set(PULSEAUDIO_LIBRARY "")
+    endif()
+else()
+    set(STATUS_PULSEAUDIO "disabled")
+    set(SOUNDIO_HAVE_PULSEAUDIO false)
+    set(PULSEAUDIO_LIBRARY "")
+endif()
 
-# Version
-SET(LIB_MAJOR_VERSION "0")
-SET(LIB_MINOR_VERSION "1")
-SET(LIB_REVISION "00")
-SET(LIB_VERSION "${LIB_MAJOR_VERSION}.${LIB_MINOR_VERSION}.${LIB_REVISION}")
+if(ENABLE_WASAPI)
+    find_package(WASAPI)
+    if(WASAPI_FOUND)
+        set(STATUS_WASAPI "OK")
+        set(SOUNDIO_HAVE_WASAPI true)
+    else()
+        set(STATUS_WASAPI "not found")
+        set(SOUNDIO_HAVE_WASAPI false)
+    endif()
+else()
+    set(STATUS_WASAPI "disabled")
+    set(SOUNDIO_HAVE_WASAPI false)
+endif()
+
+set(SOUNDIO_SOURCES
+    src/soundio/channel_layout.c
+    src/soundio/dummy.c
+    src/soundio/os.c
+    src/soundio/ring_buffer.c
+    src/soundio/soundio.c
+    src/soundio/util.c
+)
+
+if(SOUNDIO_HAVE_PULSEAUDIO)
+    set(LIBSOUNDIO_SOURCES ${LIBSOUNDIO_SOURCES}
+        "${libsoundio_SOURCE_DIR}/src/pulseaudio.c"
+    )
+endif()
+if(SOUNDIO_HAVE_WASAPI)
+    set(LIBSOUNDIO_SOURCES ${LIBSOUNDIO_SOURCES}
+        "${libsoundio_SOURCE_DIR}/src/wasapi.c"
+    )
+endif()
 
 # Build Type
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -44,6 +97,9 @@ if(APPLE)
     set(CMAKE_MACOSX_RPATH ON)
     set(CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
 endif()
+
+# Should this be OBJECT instead?
+add_library(SbBackend STATIC ${SOUNDIO_SOURCES})
 
 # Source lists
 add_library(SbAudio
@@ -84,6 +140,8 @@ add_library(SbAudio
     # Optional source files
     src/XNA_Song.c
 )
+
+target_link_libraries(SbAudio PRIVATE SbBackend)
 
 if(PLATFORM_WIN32)
     target_link_libraries(SbAudio PRIVATE -ldxguid -luuid -lwinmm -lole32 -ladvapi32 -luser32 -lmfplat -lmfreadwrite -lmfuuid -lpropsys)
@@ -147,7 +205,6 @@ else()
     endif()
 endif()
 
-# utils/ Folder
 if(BUILD_UTILS)
     enable_language(CXX)
 

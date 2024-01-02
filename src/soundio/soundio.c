@@ -8,7 +8,6 @@
 #include "soundio_private.h"
 #include "util.h"
 #include "os.h"
-#include "config.h"
 
 #include <string.h>
 #include <assert.h>
@@ -814,20 +813,4 @@ bool soundio_device_equal(
         const struct SoundIoDevice *b)
 {
     return a->is_raw == b->is_raw && a->aim == b->aim && strcmp(a->id, b->id) == 0;
-}
-
-const char *soundio_version_string(void) {
-    return SOUNDIO_VERSION_STRING;
-}
-
-int soundio_version_major(void) {
-    return SOUNDIO_VERSION_MAJOR;
-}
-
-int soundio_version_minor(void) {
-    return SOUNDIO_VERSION_MINOR;
-}
-
-int soundio_version_patch(void) {
-    return SOUNDIO_VERSION_PATCH;
 }
