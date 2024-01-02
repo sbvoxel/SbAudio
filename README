@@ -3,3 +3,31 @@ This is a fork of FAudio for the purpose of exploring an audio solution independ
 The development of this experimental library will for now be slow and periodic.
 
 Fork of: https://github.com/FNA-XNA/FAudio
+
+============
+Alternatives
+============
+
+Commercial:
+    WWise
+    FMOD
+
+LabSound
+    * Fork of WebKit's WebAudio implementation
+    * Graphs galore
+
+SoLoud
+    * Easy to use. Not the best design for AAA games I hear (?)
+
+OpenAL
+    * Now you're old
+    * Seems to be receiving lots of development recently at least
+
+FAudio
+    * What this project is forked from
+
+Low-level (wrap the drivers / platform APIs):
+    libsoundio
+    PortAudio
+    RtAudio
+    SDL
