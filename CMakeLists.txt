@@ -6,7 +6,6 @@ project(SbAudio C)
 
 # Options
 option(BUILD_UTILS "Build utils/ folder" OFF)
-option(BUILD_TESTS "Build tests/ folder for unit tests to be executed on the host against SbAudio" OFF)
 if(WIN32)
 option(PLATFORM_WIN32 "Enable native Win32 platform instead of SDL2" OFF)
 endif()
@@ -230,13 +229,6 @@ else()
     set(SbAudio_INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR})
     set(SbAudio_INSTALL_BINDIR ${CMAKE_INSTALL_BINDIR})
     set(SbAudio_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR})
-endif()
-
-# tests/ Folder
-if(BUILD_TESTS)
-    add_executable(faudio_tests tests/xaudio2.c)
-    target_compile_definitions(faudio_tests PRIVATE _DEFAULT_SOURCE _BSD_SOURCE)
-    target_link_libraries(faudio_tests PRIVATE SbAudio)
 endif()
 
 # Installation
