@@ -51,19 +51,19 @@ endif()
 # Source lists
 add_library(SbAudio
     # Public Headers
-    include/F3DAudio.h
-    include/FACT3D.h
-    include/FACT.h
-    include/FAPOBase.h
-    include/FAPOFX.h
-    include/FAPO.h
-    include/FAudioFX.h
-    include/FAudio.h
+    include/sb3DAudio.h
+    include/sbACT3D.h
+    include/sbACT.h
+    include/sbAPOBase.h
+    include/sbAPOFX.h
+    include/sbAPO.h
+    include/sbAudioFX.h
+    include/sbAudio.h
     # Internal Headers
     src/FACT_internal.h
     src/FAudio_internal.h
-    src/stb.h
-    src/stb_vorbis.h
+    src/stb_modified.h
+    src/stb_vorbis_modified.h
     src/qoa_decoder.h
     # Source Files
     src/F3DAudio.c
